@@ -104,7 +104,7 @@ app.post('/logged', async(req, res) => {
       var client = await pool.connect();
       var result = await client.query(text,values);
       var faculty = { 'faculty': (result) ? result.rows : null};
-      res.send(faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
+      res.send(faculty_id+" "faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       res.render('logged',{'given': snd_obj,'fetched': faculty});
       client.release();
     } catch (err) {
