@@ -19,10 +19,7 @@
 			<form method="POST" action="get_summary">
                         <input type="submit" value="Get summary"/> 
 			</form>
-		<%} else {%>
-			<%= (server[0].first_name) ? server[0].first_name : '' %>
-			<%= (server[0].last_name) ? server[0].last_name : '' %>
-			<%= (server[0].password) ? server[0].password : '' %>
+		<%} else{%>
 			<p>Invalid name or password! </p>
 		<%} %>
 	</body>
