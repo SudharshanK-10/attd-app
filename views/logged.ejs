@@ -1,6 +1,6 @@
 <html>
 	<body>
-		<% if(given.first_name==fetched.first_name && given.last_name==fetched.last_name && given.password==fetched.password) {%>
+		<% if(given.first_name==fetched[0].first_name && given.last_name==fetched[0].last_name && given.password==fetched[0].password) {%>
 			Welcome! <br><br>
 			<form method="POST" action="new_class">  
        			<input type="submit" value="New class"/>
@@ -18,9 +18,9 @@
                         <input type="submit" value="Get summary"/> 
 			</form>
 		<%} else {%>
-			<%= (fetched.first_name) ? fetched.first_name : '' %>
-			<%= (fetched.last_name) ? fetched.last_name : '' %>
-			<%= (fetched.password) ? fetched.password : '' %>
+			<%= (fetched[0].first_name) ? fetched[0].first_name : '' %>
+			<%= (fetched[0].last_name) ? fetched[0].last_name : '' %>
+			<%= (fetched[0].password) ? fetched[0].password : '' %>
 			<p>Invalid name or password! </p>
 		<%} %>
 	</body>
