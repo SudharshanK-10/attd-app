@@ -4,16 +4,19 @@
 			Welcome! ,<% given.first_name ' ' given.last_name%>
 			<form method="POST" action="new_class">  
        			<input type="submit" value="New class"/>
-			
+			</form>
+	
 			<form method="POST" action="new_lecture">
                         <input type="submit" value="New lecture"/>
+			</form>
 
 			<form method="POST" action="upload_csv">
                         <input type="submit" value="Upload CSV"/>
+			</form>
 
 			<form method="POST" action="get_summary">
                         <input type="submit" value="Get summary"/> 
-
+			</form>
 		<%} else {%>
 			<p>Invalid name or password! </p>
 		<%} %>
