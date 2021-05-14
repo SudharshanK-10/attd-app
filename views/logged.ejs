@@ -1,8 +1,8 @@
 <html>
 	<body>
-		<% if(given.first_name==faculty[0].first_name && given.last_name==faculty[0].last_name && given.password==faculty[0].password) {%>
-			Welcome! <%= (faculty[0].first_name) ? faculty[0].first_name : '' %>
-			<%= (faculty[0].last_name) ? faculty[0].last_name : '' %>
+		<% if(server.length>0 && user.first_name==server[0].first_name && user.last_name==server[0].last_name && user.password==server[0].password) {%>
+			Welcome! <%= (user[0].first_name) ? user[0].first_name : '' %>
+			<%= (user[0].last_name) ? user[0].last_name : '' %>
 			<br><br>
 			<form method="POST" action="new_class">  
        			<input type="submit" value="New class"/>
@@ -20,9 +20,9 @@
                         <input type="submit" value="Get summary"/> 
 			</form>
 		<%} else {%>
-			<%= (fetched[0].first_name) ? fetched[0].first_name : '' %>
-			<%= (fetched[0].last_name) ? fetched[0].last_name : '' %>
-			<%= (fetched[0].password) ? fetched[0].password : '' %>
+			<%= (server[0].first_name) ? server[0].first_name : '' %>
+			<%= (server[0].last_name) ? server[0].last_name : '' %>
+			<%= (server[0].password) ? server[0].password : '' %>
 			<p>Invalid name or password! </p>
 		<%} %>
 	</body>
