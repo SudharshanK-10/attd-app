@@ -45,10 +45,6 @@ app.get('/login.html',function(req,res) {
 });
 
 
-app.get(path.join(__dirname+'/login.html'),function(req,res) {
-	res.sendFile(path.join(__dirname+'/login.html'));
-});
-
 // for parsing application/xwww-
 //app.use(bodyParser.json());
 //app.use(express.urlencoded({ extended: true }));
