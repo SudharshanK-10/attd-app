@@ -18,6 +18,9 @@
                         <input type="submit" value="Get summary"/> 
 			</form>
 		<%} else {%>
+			<%= (fetched.first_name) ? fetched.first_name : '' %>
+			<%= (fetched.last_name) ? fetched.last_name : '' %>
+			<%= (fetched.password) ? fetched.password : '' %>
 			<p>Invalid name or password! </p>
 		<%} %>
 	</body>
