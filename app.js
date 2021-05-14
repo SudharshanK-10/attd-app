@@ -110,8 +110,14 @@ app.post('/logged', async(req, res) => {
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
       //res.render('db',faculty);
-      res.render('logged',{user: given,server: faculty});
+      
+      if(res.statusCode == 200) {
+      	      given = JSON.parse(given);
+              faculty = JSON.parse(faculty);
+	      res.render('logged',{user: given,server: faculty});
+      }
       client.release();
+   
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
