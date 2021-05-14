@@ -81,7 +81,7 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    var faulty_id = req.body.faculty_id;
+    var faculty_id = req.body.faculty_id;
     var first_name = req.body.first_name;
     var last_name = req.body.last_name;
     var password = req.body.password;
