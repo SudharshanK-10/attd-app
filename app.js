@@ -40,10 +40,10 @@ app.get('/', function(req, res) {
 
 
 //login page
-/*app.get('/index.html',function(req,res) {
+app.get('/login.html',function(req,res) {
 	res.sendFile(path.join(__dirname + '/login.html'));
 });
-*/
+
 
 app.get(path.join(__dirname+'/login.html'),function(req,res) {
 	res.sendFile(path.join(__dirname+'/login.html'));
