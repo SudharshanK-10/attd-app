@@ -81,30 +81,30 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    const faulty_id = req.body.faculty_id;
-    const first_name = req.body.first_name;
-    const last_name = req.body.last_name;
-    const password = req.body.password;
+    var faulty_id = req.body.faculty_id;
+    var first_name = req.body.first_name;
+    var last_name = req.body.last_name;
+    var password = req.body.password;
 
-    console.log(`First name: ${first_name}, Last name: ${last_name}, Password: ${password}`);
+    console.log(`Faculty_id: ${faculty_id}, First name: ${first_name}, Last name: ${last_name}, Password: ${password}`);
     //res.send('request received!');
 
-    const obj  = { 
+    var snd_obj  = { 
    'faculty_id' : faculty_id,
    'first_name'  : first_name,
    'last_name'   : last_name,
    'password'    : password
    };
 
-    const text = 'SELECT first_name,last_name FROM faculty WHERE password=$4';
-    const values = [faculty_id, first_name, last_name, password];
+    var text = 'SELECT first_name,last_name FROM faculty WHERE password=$4';
+    var values = [faculty_id, first_name, last_name, password];
 
     //res.send(JSON.stringify(obj));
     try {
-      const client = await pool.connect();
-      const result = await client.query(text,values);
-      const faculty = { 'faculty': (result) ? result.rows : null};
-      res.render('logged',{'given': obj,'fetched': faculty});
+      var client = await pool.connect();
+      var result = await client.query(text,values);
+      var faculty = { 'faculty': (result) ? result.rows : null};
+      res.render('logged',{'given': snd_obj,'fetched': faculty});
       client.release();
     } catch (err) {
       console.error(err);
