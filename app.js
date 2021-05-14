@@ -113,9 +113,11 @@ app.post('/logged', async(req, res) => {
       //res.send(faculty);
       //res.render('db',faculty);
       
+      
       if(res.statusCode == 200) {
 	      res.render('logged',{user: given,server: faculty});
       }
+      res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       client.release();
    
     } catch (err) {
