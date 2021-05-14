@@ -6,11 +6,12 @@ const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 
 // for parsing application/xwww-
-app.use(bodyParser.json());
+
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyparser.json());
+app.set('view engine', 'ejs');
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
-app.set('view engine', 'ejs');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -106,6 +107,8 @@ app.post('/logged', async(req, res) => {
       var faculty = { 'faculty': (result) ? result.rows : null};
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
+      snd_obj = JSON.stringify(snd_obj);
+      faculty = JSON.stringify(faculty);
       res.render('logged',{given: snd_obj, fetched: faculty});
       client.release();
     } catch (err) {
