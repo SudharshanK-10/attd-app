@@ -90,8 +90,8 @@ app.post('/logged', async(req, res) => {
     console.log(`Faculty_id: ${faculty_id}, First name: ${first_name}, Last name: ${last_name}, Password: ${password}`);
     //res.send('request received!');
 
-    var snd_obj  = { 
-   'faculty_id' : faculty_id,
+    var given  = { 
+   'faculty_id'  : faculty_id,
    'first_name'  : first_name,
    'last_name'   : last_name,
    'password'    : password
@@ -105,11 +105,11 @@ app.post('/logged', async(req, res) => {
       var client = await pool.connect();
       var result = await client.query(text,values);
       var faculty = { 'faculty': (result) ? result.rows : null};
+      
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
-      snd_obj = JSON.stringify(snd_obj);
-      faculty = JSON.stringify(faculty);
-      res.render('logged',{given: snd_obj, fetched: faculty});
+      
+      res.render('logged',{given,faculty});
       client.release();
     } catch (err) {
       console.error(err);
