@@ -112,8 +112,6 @@ app.post('/logged', async(req, res) => {
       //res.render('db',faculty);
       
       if(res.statusCode == 200) {
-      	      given = JSON.parse(given);
-              faculty = JSON.parse(faculty);
 	      res.render('logged',{user: given,server: faculty});
       }
       client.release();
