@@ -91,7 +91,7 @@ app.post('/logged', async(req, res) => {
     console.log(`Faculty_id: ${faculty_id}, First name: ${first_name}, Last name: ${last_name}, Password: ${password}`);
     //res.send('request received!');
 
-    var obj  = { 
+    var given  = { 
    'faculty_id'  : faculty_id,
    'first_name'  : first_name,
    'last_name'   : last_name,
@@ -109,9 +109,8 @@ app.post('/logged', async(req, res) => {
       
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
-      
-      res.json({given: obj});
-      res.render('logged',{given,faculty});
+      res.render('db',faculty);
+      //res.render('logged',{given,faculty});
       client.release();
     } catch (err) {
       console.error(err);
