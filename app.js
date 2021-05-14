@@ -106,7 +106,7 @@ app.post('/logged', async(req, res) => {
       var faculty = { 'faculty': (result) ? result.rows : null};
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
-      res.render('logged',{'given': snd_obj,'fetched': faculty});
+      res.render('logged',{given: snd_obj, fetched: faculty});
       client.release();
     } catch (err) {
       console.error(err);
