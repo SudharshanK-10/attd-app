@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
 //app.use(bodyParser.json());
 //app.use(express.urlencoded({ extended: true }));
 
-app.post('/faculty', function(req, res){
+app.post('/faculty', async(req, res) => {
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
     const password = req.body.password;
