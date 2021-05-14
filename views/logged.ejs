@@ -1,6 +1,6 @@
 <html>
 	<body>
-		<%= server %>
+		<%= server.length %>
 		<% if(server.length>0 && user.first_name==server[0].first_name && user.last_name==server[0].last_name && user.password==server[0].password) {%>
 			Welcome! <%= (user[0].first_name) ? user[0].first_name : '' %>
 			<%= (user[0].last_name) ? user[0].last_name : '' %>
