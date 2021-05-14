@@ -64,7 +64,7 @@ app.post('/faculty', async(req, res) => {
    'password'    : password
    };
 
-    const text = 'INSERT INTO faculty(first_name, last_name, password) VALUES($1, $2, $3) RETURNING *'
+    const text = 'INSERT INTO faculty(first_name, last_name, password) VALUES($1, $2, $3) RETURNING *';
     const values = [first_name, last_name, password];
     
     //res.send(JSON.stringify(obj));
@@ -96,7 +96,7 @@ app.post('/logged', async(req, res) => {
    'password'    : password
    };
 
-    var text = 'SELECT first_name,last_name FROM faculty WHERE password=$4';
+    var text = 'SELECT first_name,last_name FROM faculty WHERE password=$4 RETURNING *';
     var values = [faculty_id, first_name, last_name, password];
 
     //res.send(JSON.stringify(obj));
