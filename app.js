@@ -54,7 +54,7 @@ app.post('/faculty', async(req, res) => {
    'password'    : password
    };
 
-    const text = 'INSERT INTO faculty(fisrt_name, last_name, password) VALUES($1, $2, $3) RETURNING *'
+    const text = 'INSERT INTO faculty(first_name, last_name, password) VALUES($1, $2, $3) RETURNING *'
     const values = [first_name, last_name, password];
     
     //res.send(JSON.stringify(obj));
