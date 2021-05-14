@@ -1,7 +1,8 @@
 <html>
 	<body>
 		<% if(given.first_name==fetched[0].first_name && given.last_name==fetched[0].last_name && given.password==fetched[0].password) {%>
-			Welcome! <br><br>
+			Welcome! <%= fetched[0].first_name %> <%= fetched[0].last_name %>
+			<br><br>
 			<form method="POST" action="new_class">  
        			<input type="submit" value="New class"/>
 			</form>
