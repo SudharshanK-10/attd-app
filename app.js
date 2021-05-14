@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const path = require('path');
 const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 
+// for parsing application/xwww-
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));i
+
+app.listen(port, () => console.log(`listening on port ${port}!`));
 app.set('view engine', 'ejs');
 
 const pool = new Pool({
@@ -31,7 +37,8 @@ app.get('/', function(req, res) {
 });
 
 // for parsing application/xwww-
-app.use(express.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+//app.use(express.urlencoded({ extended: true }));
 
 app.post('/faculty', function(req, res){
     const first_name = req.body.first_name;
@@ -49,4 +56,4 @@ app.post('/faculty', function(req, res){
    res.send(JSON.stringify(obj));
 });
 
-app.listen(port, () => console.log(`listening on port ${port}!`));
+//app.listen(port, () => console.log(`listening on port ${port}!`));
