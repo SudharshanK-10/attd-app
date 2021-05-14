@@ -1,11 +1,14 @@
 <html>
      <head>
-          <title>Register</title>
+          <title>Login</title>
      </head>
 <body>
 
-     <form method="post" action="/faculty">
-     <b>REGISTER</b><br><br>
+     <form method="post" action="/logged">
+     <b>LOGIN</b><br><br>
+     Faculty-id : 
+     <input type="text" name="faculty_id" placeholder="Enter faculty id">
+     <br><br>
      First name :
      <input type="text" name="first_name" placeholder="Enter first name">
      <br><br>
@@ -15,12 +18,8 @@
      Password :
      <input type="password" name="password" placeholder="Enter password">
      <br><br>
-     <input type="submit" value="Sign up">
+     <input type="submit" value="Log in">
      </form>
-     <div class='new-here'>
-   	  Already have an account?
-     	  <a href='login.html'>Login</a>
-     </div>
 
 <style>
      form{
@@ -38,12 +37,6 @@
      }
      b{
           font-size:30px;
-     }
-     .new-here {
-     	  position:absolute;
-          top:85%;
-          left:50%;
-          transform: translate(-50%,-50%);
      }
 </style>
 </body>
