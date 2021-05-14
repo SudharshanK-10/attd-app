@@ -110,7 +110,7 @@ app.post('/logged', async(req, res) => {
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
       
-      res.JSON({given: obj});
+      res.json({given: obj});
       res.render('logged',{given,faculty});
       client.release();
     } catch (err) {
