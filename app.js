@@ -81,7 +81,7 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    var faculty_id = req.body.faculty_id;
+    var faculty_id = parseInt(req.body.faculty_id);
     var first_name = req.body.first_name;
     var last_name = req.body.last_name;
     var password = req.body.password;
@@ -96,7 +96,7 @@ app.post('/logged', async(req, res) => {
    'password'    : password
    };
 
-    var text = 'SELECT first_name,last_name FROM faculty WHERE password=$4';
+    var text = 'SELECT first_name,last_name,password FROM faculty WHERE faculty_id=$1';
     var values = [faculty_id, first_name, last_name, password];
 
     //res.send(JSON.stringify(obj));
