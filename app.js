@@ -8,7 +8,7 @@ const { Pool } = require('pg');
 // for parsing application/xwww-
 
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyparser.json());
+app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
