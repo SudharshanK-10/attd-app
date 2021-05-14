@@ -1,0 +1,25 @@
+<html>
+<body>
+<table class="faculty-table">
+  <thead>
+    <tr>
+      <th>Faculty id</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Password</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% for(var i=0; i < faculty.length; i++) { %>
+    <tr>
+	<td><%= faculty[i].faculty_id %></td>
+      <td><%= faculty[i].first_name %></td>
+      <td><%= faculty[i].last_name %></td>
+      <td><%= faculty[i].password %></td>
+    </tr>
+    <% } %>
+  </tbody>
+</body>
+</table>
+</html>

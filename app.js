@@ -4,7 +4,6 @@ const path = require('path');
 const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 const pool = new Pool({
@@ -19,7 +18,7 @@ app.get('/db', async (req, res) => {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM faculty;');
       const results = { 'results': (result) ? result.rows : null};
-      res.send(JSON.stringify(result));
+      res.render('views/db',{'faculty' : results});
       client.release();
     } catch (err) {
       console.error(err);
