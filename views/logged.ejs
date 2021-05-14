@@ -1,7 +1,7 @@
 <html>
 	<body>
-		<% if(given.first_name==fetched.first_name && given.last_name==fetched.last_name) {%>
-			Welcome! ,<% given.first_name ' ' given.last_name%>
+		<% if(given.first_name==fetched.first_name && given.last_name==fetched.last_name && given.password==fetched.password) {%>
+			Welcome! ,<% given.first_name given.last_name%><br><br>
 			<form method="POST" action="new_class">  
        			<input type="submit" value="New class"/>
 			</form>
