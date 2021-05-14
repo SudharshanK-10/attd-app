@@ -100,7 +100,7 @@ app.post('/logged', async(req, res) => {
    'password'    : password
    };
 	
-    var text = 'SELECT * FROM faculty WHERE faculty_id=$1';
+    var text = 'SELECT * FROM faculty';
     var values = [faculty_id];
 
     //res.send(JSON.stringify(obj));
