@@ -53,7 +53,20 @@ app.post('/faculty', function(req, res){
    'last_name'	 : last_name,
    'password'    : password
    };
-   res.send(JSON.stringify(obj));
+
+    const text = 'INSERT INTO faculty(fisrt_name, last_name, password) VALUES($1, $2, $3) RETURNING *'
+    const values = [first_name, last_name, password];
+    
+    //res.send(JSON.stringify(obj));
+    try {
+      const client = await pool.connect();
+      const result = await client.query(text,values);
+      res.send("Welcome!, " +first_name+" "+last_name); 
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
 });
 
 //app.listen(port, () => console.log(`listening on port ${port}!`));
