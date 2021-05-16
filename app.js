@@ -111,7 +111,7 @@ app.post('/logged', async(req, res) => {
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
 
-      if(faulty[0].first_name==given.first_name&&faulty[0].last_name==given.last_name&&faulty[0].password==given.password){
+      if(faculty[0].first_name==given.first_name&&faculty[0].last_name==given.last_name&&faculty[0].password==given.password){
            res.render(logged,given);
       }
       else {
