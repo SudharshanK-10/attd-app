@@ -111,7 +111,7 @@ app.post('/logged', async(req, res) => {
       var client = await pool.connect();
       var result = await client.query(text,values);
       //var faculty = { 'faculty': (result) ? result.rows : null};
-      faculty = result.rows;
+      const faculty = result.rows;
 
       email = faculty[0].email;
       password = faculty[0].password;
