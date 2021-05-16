@@ -103,7 +103,7 @@ app.post('/logged', async(req, res) => {
    'password'    : password
    };
 
-    var text = 'SELECT * FROM faculty WHERE email=$1 RETURNING *';
+    var text = 'SELECT * FROM faculty WHERE email=$1';
     var values = [email];
 
     //res.send(JSON.stringify(obj));
