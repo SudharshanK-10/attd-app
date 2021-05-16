@@ -3,7 +3,7 @@
           <title>Register</title>
      </head>
 <body>
-
+     <div class="frame">
      <form method="post" action="/faculty">
      <b>REGISTER</b><br><br>
      First name :
@@ -23,18 +23,14 @@
      <br><br>
      <input type="submit" value="Sign up">
      </form>
+
      <div class='new-here'>
    	  Already have an account?
      	  <a href='/login.html'>Login</a>
      </div>
-
+     </div>
 <style>
      form{
-          position:absolute;
-          top:50%;
-          left:50%;
-          transform: translate(-50%,-50%);
-          text-align:center;
           font-family:calibri;
           font-size:25px;
           border:2px solid black;
@@ -42,15 +38,18 @@
           padding:50px 15px;
           background:linear-gradient(pink,white);
      }
+     .frame{
+          position:absolute;
+          top:50%;
+          left:50%;
+          transform: translate(-50%,-50%);
+          text-align:center;
+
+     }
      b{
           font-size:30px;
      }
-     .new-here {
-     	position:absolute;
-          bottom:20px;
-          left:50%;
-          transform: translate(-50%,-50%);
-     }
+
 </style>
 </body>
 </html>
