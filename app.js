@@ -58,7 +58,7 @@ app.get('/login.html',function(req,res) {
 app.post('/faculty', async(req, res) => {
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
-    const password = req.body.password;
+    var password = req.body.password;
     const email = req.body.email;
     const college = req.body.college;
 
