@@ -82,7 +82,7 @@ app.post('/faculty', async(req, res) => {
       const client = await pool.connect();
       const result = await client.query(text,values);
       const faculty = result.rows;
-      res.send("Successfully signed up, Welcome!, " +first_name+" "+last_name+", Your faculty id : "+faculty[0].faculty_id);
+      res.render('register',{given: faculty});
       client.release();
     } catch (err) {
       console.error(err);

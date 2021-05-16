@@ -1,9 +1,13 @@
 <html>
 	<body>
-			Welcome! <% for(var i=0; i < given.length; i++) { %>
+			Sucessfully registered, Welcome! <% for(var i=0; i < given.length; i++) { %>
 			<%= (given[0].first_name) ? given[0].first_name : '' %>
 			<%= (given[0].last_name) ? given[0].last_name : '' %>
 			<% } %>
+			<br>
+			Your Faculty Id is <b>
+				<%= (given[0].faculty_id) ? given[0].faculty_id : '' %>
+			</b>
 			<br><br>
 			<form method="POST" action="new_class">
        			<input type="submit" value="New class"/>
@@ -23,7 +27,8 @@
 	</body>
 	<style>
 		body{
-			font-size : 30px;
+			font-size : 25px;
+			border:2px solid black;
 			background:linear-gradient(#07F5F5,white);
 			position:absolute;
 	          top:50%;
