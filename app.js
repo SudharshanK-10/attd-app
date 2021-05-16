@@ -110,9 +110,9 @@ app.post('/logged', async(req, res) => {
       var faculty = result;
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
-
+      res.render('db',faculty);
       if(faculty[0].first_name==given.first_name&&faculty[0].last_name==given.last_name&&faculty[0].password==given.password){
-           res.render(logged,given);
+           res.render('logged',given);
       }
       else {
            res.send("Invalid name or Password!")
