@@ -106,15 +106,14 @@ app.post('/logged', async(req, res) => {
     try {
       var client = await pool.connect();
       var result = await client.query(text,values);
-      var faculty = { 'faculty': (result) ? result.rows : null};
-      faculty = res.json(faculty);
+      //var faculty = { 'faculty': (result) ? result.rows : null};
+      faculty = result.rows;
 
-      //faculty_id = faculty[0].faculty_id;
       first_name = faculty[0].first_name;
       last_name = faculty[0].last_name;
       password = faculty[0].password;
 
-      res.render('db',faculty);
+      //res.render('db',faculty);
       if(first_name==given.first_name&&last_name==given.last_name&&password==given.password){
            res.render('logged',given);
       }

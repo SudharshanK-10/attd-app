@@ -1,7 +1,7 @@
 <html>
 	<body>
-			Welcome! <%= (user[0].first_name) ? user[0].first_name : '' %>
-			<%= (user[0].last_name) ? user[0].last_name : '' %>
+			Welcome! <%= (given.first_name) ? given.first_name : '' %>
+			<%= (given.last_name) ? given.last_name : '' %>
 			<br><br>
 			<form method="POST" action="new_class">
        			<input type="submit" value="New class"/>
