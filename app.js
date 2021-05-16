@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const saltrounds = 7;
+const hash_password = "";
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -71,12 +72,13 @@ app.post('/faculty', async(req, res) => {
         throw err;
       }
       else {
-        password = hash;
-        console.log(hash);
-          }
+          hashed_password = hash;
+          console.log(hashed_password);
+     }
         });
       }
     });
+    password = hashed_password;
     console.log(`First name: ${first_name}, Last name: ${last_name}, Password: ${password}, Email: ${email}, college: ${college}`);
     //res.send('request received!');
 
