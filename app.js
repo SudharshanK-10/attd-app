@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
+const bcrypt = require('bcryptjs');
+const saltrounds = 23;
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -57,18 +59,36 @@ app.post('/faculty', async(req, res) => {
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
     const password = req.body.password;
+    const email = req.body.email;
+    const college = req.body.college;
 
-    console.log(`First name: ${first_name}, Last name: ${last_name}, Password: ${password}`);
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+  if (err) {
+    throw err;
+  } else {
+    bcrypt.hash(password, salt, function(err, hash) {
+      if (err) {
+        throw err;
+      }
+      else {
+        password = hash;
+          }
+        });
+      }
+    });
+    console.log(`First name: ${first_name}, Last name: ${last_name}, Password: ${password}, Email: ${email}, college: ${college}`);
     //res.send('request received!');
 
     const obj  = {
    'first_name'  : first_name,
    'last_name'	 : last_name,
-   'password'    : password
+   'password'    : password,
+   'email'  : email,
+   'college'  : college
    };
 
-    const text = 'INSERT INTO faculty(first_name, last_name, password) VALUES($1, $2, $3) RETURNING *';
-    const values = [first_name, last_name, password];
+    const text = 'INSERT INTO faculty(first_name, last_name, password, email, college) VALUES($1, $2, $3, $4, $5) RETURNING *';
+    const values = [first_name, last_name, password, email, college];
 
     //res.send(JSON.stringify(obj));
     try {
@@ -85,23 +105,19 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    const faculty_id = req.body.faculty_id;
-    var first_name = req.body.first_name;
-    var last_name = req.body.last_name;
-    var password = req.body.password;
+    const password = req.body.password;
+    const email = req.body.email;
 
-    console.log(`Faculty_id: ${faculty_id}, First name: ${first_name}, Last name: ${last_name}, Password: ${password}`);
+    console.log(`Email: ${email}, Password: ${password}`);
     //res.send('request received!');
 
     const given  = {
-   'faculty_id'  : faculty_id,
-   'first_name'  : first_name,
-   'last_name'   : last_name,
+   'email' : email,
    'password'    : password
    };
 
-    var text = 'SELECT * FROM faculty WHERE faculty_id=$1';
-    var values = [faculty_id];
+    var text = 'SELECT * FROM faculty WHERE email=$1';
+    var values = [email];
 
     //res.send(JSON.stringify(obj));
     try {
@@ -110,16 +126,27 @@ app.post('/logged', async(req, res) => {
       //var faculty = { 'faculty': (result) ? result.rows : null};
       faculty = result.rows;
 
-      first_name = faculty[0].first_name;
-      last_name = faculty[0].last_name;
+      email = faculty[0].email;
       password = faculty[0].password;
 
-      //res.render('db',faculty);
-      if(first_name==given.first_name&&last_name==given.last_name&&password==given.password){
-           res.render('logged',{given: given});
+      //decrypt the Password
+      const ok;
+
+      bcrypt.compare(given.password, password, function(err, isMatch) {
+           if (err) {
+                throw err;
+           } else if (!isMatch) {
+                ok=0;
+           } else {
+               ok=1;
+           }
+      });
+
+      if(email==given.email && ok){
+           res.render('logged',{given: faculty});
       }
       else {
-           res.send("Invalid name or Password!")
+           res.send("Invalid Email-id or Password!")
       }
       client.release();
 
