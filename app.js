@@ -124,7 +124,7 @@ app.post('/logged', async(req, res) => {
            res.render('logged',{given: faculty});
       }
       else {
-           res.send("Invalid Email-id or Password!")
+           res.send("<b>Invalid Email-id or Password!<b>")
       }
 
       client.release();
