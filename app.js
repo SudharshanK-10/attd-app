@@ -92,25 +92,27 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    var password = req.body.password;
-    var email = req.body.email;
 
-    console.log(`Email: ${email}, Password: ${password}`);
-    //res.send('request received!');
-
-    const given  = {
-   'email' : email,
-   'password'    : password
-   };
-
-    var text = 'SELECT * FROM faculty WHERE email=$1';
-    var values = [email];
-
-    //res.send(JSON.stringify(obj));
     try {
+        var password = req.body.password;
+        var email = req.body.email;
+
+        console.log(`Email: ${email}, Password: ${password}`);
+        //res.send('request received!');
+
+        const given  = {
+       'email' : email,
+       'password'    : password
+       };
+
+        var text = 'SELECT * FROM faculty WHERE email=$1';
+        var values = [email];
+
+        //res.send(JSON.stringify(obj));
       var client = await pool.connect();
       var result = await client.query(text,values);
-      var faculty = { 'faculty': (result) ? result.rows : null};
+      //const faculty = { 'faculty': (result) ? result.rows : null};
+      const faculty = result.rows;
 
       email = faculty[0].email;
       password = faculty[0].password;
@@ -119,11 +121,12 @@ app.post('/logged', async(req, res) => {
       const ok = bcrypt.compareSync(given.password,password);
 
       if(email==given.email && ok){
-           res.render('logged',{given: faculty[0]});
+           res.render('logged',{given: given);
       }
       else {
            res.send("Invalid Email-id or Password!")
       }
+
       client.release();
 
     } catch (err) {
