@@ -105,13 +105,13 @@ app.post('/logged', async(req, res) => {
     //res.send(JSON.stringify(obj));
     try {
       var client = await pool.connect();
-      var result = await client.query(text/*,values*/);
+      var result = await client.query(text,values);
       //var faculty = { 'faculty': (result) ? result.rows : null};
       var faculty = result;
       //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
       //res.send(faculty);
 
-      if(faulty[0].first_name==give.first_name&&faulty[0].last_name==give.last_name&&faulty[0].password==give.password){
+      if(faulty[0].first_name==given.first_name&&faulty[0].last_name==given.last_name&&faulty[0].password==given.password){
            res.render(logged,given);
       }
       else {
