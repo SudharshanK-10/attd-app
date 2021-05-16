@@ -130,7 +130,7 @@ app.post('/logged', async(req, res) => {
       password = faculty[0].password;
 
       //decrypt the Password
-      const ok;
+      const ok = 0;
 
       bcrypt.compare(given.password, password, function(err, isMatch) {
            if (err) {
