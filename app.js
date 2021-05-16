@@ -118,7 +118,7 @@ app.post('/logged', async(req, res) => {
 
       //decrypt the Password
       const ok = bcrypt.compareSync(given.password,password);
-
+      await client.end();
       if(email==given.email && ok){
            res.render('logged',{given: faculty});
       }
