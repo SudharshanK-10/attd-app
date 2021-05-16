@@ -84,7 +84,7 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    var faculty_id = req.body.faculty_id;
+    const faculty_id = req.body.faculty_id;
     var first_name = req.body.first_name;
     var last_name = req.body.last_name;
     var password = req.body.password;
@@ -92,7 +92,7 @@ app.post('/logged', async(req, res) => {
     console.log(`Faculty_id: ${faculty_id}, First name: ${first_name}, Last name: ${last_name}, Password: ${password}`);
     //res.send('request received!');
 
-    var given  = {
+    const given  = {
    'faculty_id'  : faculty_id,
    'first_name'  : first_name,
    'last_name'   : last_name,
@@ -115,7 +115,7 @@ app.post('/logged', async(req, res) => {
 
       //res.render('db',faculty);
       if(first_name==given.first_name&&last_name==given.last_name&&password==given.password){
-           res.render('logged',given);
+           res.render('logged',{given: given});
       }
       else {
            res.send("Invalid name or Password!")
