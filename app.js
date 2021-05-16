@@ -92,8 +92,8 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    const password = req.body.password;
-    const email = req.body.email;
+    var password = req.body.password;
+    var email = req.body.email;
 
     console.log(`Email: ${email}, Password: ${password}`);
     //res.send('request received!');
