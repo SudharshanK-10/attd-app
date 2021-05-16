@@ -67,14 +67,15 @@ app.post('/faculty', async(req, res) => {
    'password'    : password
    };
 
-    const text = 'INSERT INTO faculty(first_name, last_name, password) VALUES($1, $2, $3) RETURNING faculty_id';
+    const text = 'INSERT INTO faculty(first_name, last_name, password) VALUES($1, $2, $3) RETURNING *';
     const values = [first_name, last_name, password];
 
     //res.send(JSON.stringify(obj));
     try {
       const client = await pool.connect();
       const result = await client.query(text,values);
-      res.send("Successfully signed up, Welcome!, " +first_name+" "+last_name+", Your faculty id : "+result.faculty_id);
+      const faculty = result.rows;
+      res.send("Successfully signed up, Welcome!, " +first_name+" "+last_name+", Your faculty id : "+faculty[0].faculty_id);
       client.release();
     } catch (err) {
       console.error(err);
