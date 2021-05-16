@@ -62,7 +62,7 @@ app.post('/faculty', async(req, res) => {
     const email = req.body.email;
     const college = req.body.college;
 
-    bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.genSalt(saltrounds, function (err, salt) {
   if (err) {
     throw err;
   } else {
