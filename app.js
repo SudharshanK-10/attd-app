@@ -107,8 +107,9 @@ app.post('/logged', async(req, res) => {
       var client = await pool.connect();
       var result = await client.query(text,values);
       var faculty = { 'faculty': (result) ? result.rows : null};
+      faculty = res.json(faculty);
 
-      faculty_id = faculty[0].faculty_id;
+      //faculty_id = faculty[0].faculty_id;
       first_name = faculty[0].first_name;
       last_name = faculty[0].last_name;
       password = faculty[0].password;
