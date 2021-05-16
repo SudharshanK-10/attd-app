@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const saltrounds = 7;
-const hash_password = "";
+const hashed_password = "";
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
