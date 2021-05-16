@@ -110,8 +110,7 @@ app.post('/logged', async(req, res) => {
     try {
       var client = await pool.connect();
       var result = await client.query(text,values);
-      //var faculty = { 'faculty': (result) ? result.rows : null};
-      const faculty = result.rows;
+      var faculty = { 'faculty': (result) ? result.rows : null};
 
       email = faculty[0].email;
       password = faculty[0].password;
@@ -120,7 +119,7 @@ app.post('/logged', async(req, res) => {
       const ok = bcrypt.compareSync(given.password,password);
 
       if(email==given.email && ok){
-           res.render('logged',{given: faculty});
+           res.render('logged',{given: faculty[0]});
       }
       else {
            res.send("Invalid Email-id or Password!")
