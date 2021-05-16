@@ -121,7 +121,7 @@ app.post('/logged', async(req, res) => {
       const ok = bcrypt.compareSync(given.password,password);
 
       if(email==given.email && ok){
-           res.render('logged',{given: given});
+           res.render('logged',{given: faculty});
       }
       else {
            res.send("Invalid Email-id or Password!")
