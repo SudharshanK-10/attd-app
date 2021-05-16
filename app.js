@@ -117,7 +117,7 @@ app.post('/logged', async(req, res) => {
       password = faculty[0].password;
 
       //decrypt the Password
-      const ok = bcrypt.comapareSync(given.password,password);
+      const ok = bcrypt.compareSync(given.password,password);
 
       if(email==given.email && ok){
            res.render('logged',{given: faculty});
