@@ -5,7 +5,7 @@ const path = require('path');
 const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
-const saltrounds = 23;
+const saltrounds = 7;
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -72,6 +72,7 @@ app.post('/faculty', async(req, res) => {
       }
       else {
         password = hash;
+        console.log(hash);
           }
         });
       }
