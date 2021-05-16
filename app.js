@@ -103,7 +103,7 @@ app.post('/logged', async(req, res) => {
    'password'    : password
    };
 
-    var text = 'SELECT * FROM faculty WHERE email=$1';
+    var text = 'SELECT * FROM faculty WHERE email=$1 RETURNING *';
     var values = [email];
 
     //res.send(JSON.stringify(obj));
@@ -125,7 +125,6 @@ app.post('/logged', async(req, res) => {
       else {
            res.send("Invalid Email-id or Password!")
       }
-      await client.end();
       client.release();
 
     } catch (err) {
