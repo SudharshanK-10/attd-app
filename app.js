@@ -111,9 +111,11 @@ app.post('/logged', async(req, res) => {
         //res.send(JSON.stringify(obj));
       var client = await pool.connect();
       var result = await client.query(text,values);
-      //const faculty = { 'faculty': (result) ? result.rows : null};
-      const faculty = result.rows;
+      const faculty = { 'faculty': (result) ? result.rows : null};
 
+      if(!faculty){
+            res.send("<b>Invalid Email-id or Password!<b>")
+      }
       email = faculty[0].email;
       password = faculty[0].password;
 
