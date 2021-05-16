@@ -84,7 +84,7 @@ app.post('/faculty', async(req, res) => {
 
 //successful login
 app.post('/logged', async(req, res) => {
-    var faculty_id = parseInt(req.body.faculty_id);
+    var faculty_id = req.body.faculty_id;
     var first_name = req.body.first_name;
     var last_name = req.body.last_name;
     var password = req.body.password;
@@ -107,10 +107,14 @@ app.post('/logged', async(req, res) => {
       var client = await pool.connect();
       var result = await client.query(text,values);
       var faculty = { 'faculty': (result) ? result.rows : null};
-      //res.send(faculty_id+" "+faculty.first_name+" "+faculty.last_name+" "+faculty.password+" ");
-      //res.send(faculty);
+
+      faculty_id = faculty[0].faculty_id;
+      first_name = faculty[0].first_name;
+      last_name = faculty[0].last_name;
+      password = faculty[0].password;
+
       res.render('db',faculty);
-      if(faculty[0].first_name==given.first_name&&faculty[0].last_name==given.last_name&&faculty[0].password==given.password){
+      if(first_name==given.first_name&&last_name==given.last_name&&password==given.password){
            res.render('logged',given);
       }
       else {
