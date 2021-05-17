@@ -5,8 +5,10 @@ const path = require('path');
 const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
-const saltrounds = 7;
-
+const saltrounds = 10;
+const cors = require('cors');
+const multer = require('multer');
+const helpers = require('./helpers'); //identify the csv files
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -157,8 +159,37 @@ app.post('/logged/upload_csv',function(req,res){
      res.sendFile(path.join(__dirname + '/logged/upload-csv.html'));
 });
 
-app.post('/logged/uploaded_csv',async(req,res){
-     
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'logged/');
+    },
+
+    // By default, multer removes file extensions so let's add them back
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+app.post('/logged/uploaded_csv',function(req,res){
+     let upload = multer({ storage: storage, fileFilter: helpers.fileFilter }).single('csv_file');
+
+    upload(req, res, function(err) {
+        // req.file contains information of uploaded file
+        // req.body contains information of text fields, if there were any
+
+        if (req.fileValidationError) {
+            return res.send(req.fileValidationError);
+        }
+        else if (!req.file) {
+            return res.send('Please select an csv to upload');
+        }
+        else if (err instanceof multer.MulterError) {
+            return res.send(err);
+        }
+        else if (err) {
+            return res.send(err);
+        }
+    });
 });
 
 
