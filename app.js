@@ -160,6 +160,7 @@ app.post('/logged/upload_csv',function(req,res){
      res.sendFile(path.join(__dirname + '/logged/upload-csv.html'));
 });
 
+/*
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null,__dirname+"/logged");
@@ -170,9 +171,12 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
+*/
 
-app.post('/logged/uploaded_csv',function(req,res) {
-     let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('csv_file');
+var upload = multer({ dest: __dirname+"/logged"});
+
+app.post('/logged/uploaded_csv',upload.single('csv_file'),function(req,res) {
+     /*let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('file');
 
      upload(req, res, function(err) {
         // req.file contains information of uploaded file
@@ -190,6 +194,7 @@ app.post('/logged/uploaded_csv',function(req,res) {
         else if (err) {
             return res.send(err);
         }
+        */
         console.log(req.file);
         res.send(`<iframe src="${req.file.path}" width="400px" display="block"></iframe>`);
     });
