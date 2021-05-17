@@ -83,6 +83,7 @@ app.post('/faculty', async(req, res) => {
 
      if(faculty[0].email==email){
           res.render('authenticate',{given:faculty});
+          res.end();
      }
      client.release();
      }
