@@ -193,9 +193,11 @@ app.post('/logged/uploaded_csv',(req,res) => {
         else if (err) {
             return res.send(err);
         }
-        */
-        console.log(req.file);
-        res.send(`<iframe src="${req.file.path}" width="400px" display="block"></iframe>`);
+        
+        const file = req.file;
+
+        console.log(file);
+        return res.send(`<iframe src="${file.path}" width="400px" display="block"></iframe>`);
     });
 });
 
