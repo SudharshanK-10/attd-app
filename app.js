@@ -172,10 +172,9 @@ const storage = multer.diskStorage({
     }
 });
 */
+var upload = multer({dest: "logged/"});
 
-var upload = multer({ dest: __dirname+"/logged"});
-
-app.post('/logged/uploaded_csv',upload.single('csv_file'),function(req,res) {
+app.post('/logged/uploaded_csv',upload.single('csv_file'),(req,res) {
      /*let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('file');
 
      upload(req, res, function(err) {
