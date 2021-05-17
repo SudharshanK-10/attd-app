@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/logged'));
 
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
@@ -161,7 +162,7 @@ app.post('/logged/upload_csv',function(req,res){
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, path.join(__dirname + '/logged'));
+        cb(null,"logged/");
     },
 
     // By default, multer removes file extensions so let's add them back
