@@ -161,7 +161,7 @@ app.post('/logged/upload_csv',function(req,res){
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, './logged');
+        cb(null, path.join(__dirname + '/logged'));
     },
 
     // By default, multer removes file extensions so let's add them back
@@ -189,7 +189,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
         else if (err) {
             return res.send(err);
         }
-        res.send("CSV file uploaded successfully!");
+        res.send(`<iframe src="${req.file.path}" width="400px" display="block"></iframe>`);
     });
 });
 
