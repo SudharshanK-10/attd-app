@@ -157,6 +157,10 @@ app.post('/logged/upload_csv',function(req,res){
      res.sendFile(path.join(__dirname + '/logged/upload-csv.html'));
 });
 
+app.post('/logged/uploaded_csv',async(req,res){
+     
+});
+
 
 
 //app.listen(port, () => console.log(`listening on port ${port}!`));
