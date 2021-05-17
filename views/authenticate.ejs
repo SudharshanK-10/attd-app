@@ -1,0 +1,16 @@
+<html>
+<body>
+     <% for(var i=0; i < given.length; i++) { %>
+     <% if(given.email==faculty[i].email) {%>
+     <%= given.email%> already exists!
+     <% } } %>
+</body>
+<style>
+     body{
+          font-size : 25px;
+          border:2px solid black;
+          background:linear-gradient(#07F5F5,white);
+          text-align:center;
+     }
+</style>
+</html>

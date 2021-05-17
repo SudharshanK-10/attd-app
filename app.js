@@ -57,25 +57,40 @@ app.get('/login.html',function(req,res) {
 
 //success register page
 app.post('/faculty', async(req, res) => {
-    const first_name = req.body.first_name;
-    const last_name = req.body.last_name;
+    const name = req.body.name;
     const password = bcrypt.hashSync(req.body.password,saltrounds);
     const email = req.body.email;
     const college = req.body.college;
 
-    console.log(`First name: ${first_name}, Last name: ${last_name}, Password: ${password}, Email: ${email}, college: ${college}`);
+    console.log(`Name: ${name}, Password: ${password}, Email: ${email}, college: ${college}`);
     //res.send('request received!');
 
     const obj  = {
-   'first_name'  : first_name,
-   'last_name'	 : last_name,
+   'name'  : name,
    'password'    : password,
    'email'  : email,
    'college'  : college
    };
 
-    const text = 'INSERT INTO faculty(first_name, last_name, password, email, college) VALUES($1, $2, $3, $4, $5) RETURNING *';
-    const values = [first_name, last_name, password, email, college];
+   //looking for email
+    var text = 'SELECT * FROM faculty WHERE email=$1';
+    var values = [email];
+
+    try {
+     var client = await pool.connect();
+     var result = await client.query(text,values);
+     const faculty = result.rows;
+     res.render('authenticate',{given:obj,fetched:faculty});
+     client.release();
+     }
+     catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+
+    //if email doesn't exists
+    text = 'INSERT INTO faculty(name, password, email, college) VALUES($1, $2, $3, $4) RETURNING *';
+    values = [name, password, email, college];
 
     //res.send(JSON.stringify(obj));
     try {
@@ -112,7 +127,7 @@ app.post('/logged', async(req, res) => {
       var client = await pool.connect();
       var result = await client.query(text,values);
       const faculty = result.rows;
-      
+
       email = faculty[0].email;
       password = faculty[0].password;
 
