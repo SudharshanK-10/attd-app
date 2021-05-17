@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/logged'));
+//app.use(express.static(__dirname + '/logged'));
 
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
@@ -162,7 +162,7 @@ app.post('/logged/upload_csv',function(req,res){
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null,"files/");
+        cb(null,__dirname+"/logged");
     },
 
     // By default, multer removes file extensions so let's add them back
@@ -171,10 +171,10 @@ const storage = multer.diskStorage({
     }
 });
 
-app.post('/logged/uploaded_csv',(req,res) => {
-     let upload = multer({ storage: storage, fileFilter: helpers.fileFilter }).single('csv_file');
+app.post('/logged/uploaded_csv',sync(req,res) => {
+     let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('csv_file');
 
-    upload(req, res, function(err) {
+     upload(req, res, function(err) {
         // req.file contains information of uploaded file
         // req.body contains information of text fields, if there were any
 

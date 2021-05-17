@@ -1,4 +1,4 @@
-const fileFilter = function(req, file, cb) {
+const csvFilter = function(req, file, cb) {
     // Accept csv only
     if (!file.originalname.match(/\.(csv)$/)) {
         req.fileValidationError = 'Only csv files are allowed!';
@@ -6,4 +6,4 @@ const fileFilter = function(req, file, cb) {
     }
     cb(null, true);
 };
-exports.imageFilter = fileFilter;
+exports.imageFilter = csvFilter;
