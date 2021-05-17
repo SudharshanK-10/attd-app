@@ -75,7 +75,6 @@ app.post('/faculty', async(req, res) => {
    //looking for email
     var text = 'SELECT * FROM faculty WHERE email=$1';
     var values = [email];
-    var ok=0;
 
     try {
      var client = await pool.connect();
@@ -84,7 +83,6 @@ app.post('/faculty', async(req, res) => {
 
      if(faculty[0].email==email){
           res.render('authenticate',{given:faculty});
-          ok=1;
      }
      client.release();
      }
@@ -93,9 +91,6 @@ app.post('/faculty', async(req, res) => {
       res.send("Error " + err);
     }
 
-    if(ok==1){
-         res.end();
-    }
     //if email doesn't exists
     text = 'INSERT INTO faculty(name, password, email, college) VALUES($1, $2, $3, $4) RETURNING *';
     values = [name, password, email, college];
