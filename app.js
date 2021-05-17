@@ -79,10 +79,10 @@ app.post('/faculty', async(req, res) => {
     try {
      var client = await pool.connect();
      var result = await client.query(text,values);
-     const faculty = result.rows;
+     var faculty = result.rows;
 
      if(faculty[0].email==email){
-          res.render('authenticate',faculty);
+          res.render('authenticate',{given:faculty});
      }
      client.release();
      }
