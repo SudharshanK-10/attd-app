@@ -197,7 +197,7 @@ app.post('/logged/uploaded_csv',upload.single('csv_file'),function(req,res) {
         */
         console.log(req.file);
         res.send(`<iframe src="${req.file.path}" width="400px" display="block"></iframe>`);
-    });
+    //});
 });
 
 
