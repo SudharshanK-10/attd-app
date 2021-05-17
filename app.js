@@ -189,6 +189,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
         else if (err) {
             return res.send(err);
         }
+        res.send("CSV file uploaded successfully!");
     });
 });
 
