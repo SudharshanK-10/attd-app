@@ -195,9 +195,8 @@ app.post('/logged/uploaded_csv',(req,res) => {
         }
 
         const file = req.file;
-        var pic = "/app/9521.jpg";
         console.log(file);
-        return res.send(`<iframe src="${pic}" width="400px" display="block"></iframe>`);
+        res.send(`<iframe src="${file.path}" width="400px" display="block"></iframe>`);
     });
 });
 
