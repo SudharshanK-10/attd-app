@@ -27,8 +27,8 @@ app.set('view engine', 'ejs');
     createParentPath: true
 }));
 */
-app.use(morgan('dev'));
-app.use(cors());
+//app.use(morgan('dev'));
+//app.use(cors());
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
 
