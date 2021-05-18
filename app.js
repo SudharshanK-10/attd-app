@@ -189,11 +189,13 @@ app.post('/logged/uploaded_csv',function (req,res)  {
      form.parse(req, function (err, fields, files) {
       var oldpath = files.csv_file.path;
       var newpath = './logged/' + files.csv_file.name;
+
       fs.rename(oldpath, newpath, function (err) {
         if (err) throw err;
         res.write('File uploaded and moved!');
         res.end();
       });
+     });
      /*try {
         if(!req.files) {
             res.send({
