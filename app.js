@@ -184,11 +184,11 @@ const storage = multer.diskStorage({
 */
 //var upload = multer({dest: "logged/"});
 
-app.post('/logged/uploaded_csv',function (req,res) => {
+app.post('/logged/uploaded_csv',function (req,res)  {
      var form = new formidable.IncomingForm();
      form.parse(req, function (err, fields, files) {
-      var oldpath = files.filetoupload.path;
-      var newpath = './logged/' + files.filetoupload.name;
+      var oldpath = files.csv_file.path;
+      var newpath = './logged/' + files.csv_file.name;
       fs.rename(oldpath, newpath, function (err) {
         if (err) throw err;
         res.write('File uploaded and moved!');
