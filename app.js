@@ -187,8 +187,8 @@ const storage = multer.diskStorage({
 let csvdata = "text";
 
 app.post('/logged/uploaded_csv',(req,res) => {
-     csvData = req.files.csv_file.data.toString('utf8');
-       return csvtojson().fromString(csvData).then(json =>
+     csvdata = req.files.csv_file.data.toString('utf8');
+       return csvtojson().fromString(csvdata).then(json =>
          {return res.status(201).json({csv:csvdata, json:json})})
 });
 
