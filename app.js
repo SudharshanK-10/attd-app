@@ -10,6 +10,7 @@ const saltrounds = 10;
 //const multer = require('multer');
 //const helpers = require('./helpers'); //identify the csv files
 const fileUpload = require('express-fileupload');
+const csvtojson = require('csvtojson');
 //const morgan = require('morgan');
 //const _ = require('lodash');
 //var formidable = require('formidable');
@@ -168,7 +169,7 @@ app.post('/logged', async(req, res) => {
 
 //uploading csv files
 app.post('/logged/upload_csv',function(req,res){
-     res.sendFile(path.join(__dirname + '/logged/upload-csv.html'));
+     res.render('upload-csv');
 });
 
 /*
@@ -183,23 +184,12 @@ const storage = multer.diskStorage({
     }
 });
 */
+let csvdata = "text";
 
-
-app.post('/logged/uploaded_csv',function(req,res) {
-     if(req.files){
-          var file = req.files.csv_file;
-          var filename = file.name;
-          console.log(file);
-          file.mv("./logged/"+filename,function(err){
-               if(err){
-                    console.log(error);
-                    res.send("ERROR in uploading file!");
-               }
-               else{
-                    res.send("File upload  successful!");
-               }
-          });
-     }
+app.post('/logged/uploaded_csv',(req,res) => {
+     csvData = req.files.csv_file.data.toString('utf8');
+       return csvtojson().fromString(csvData).then(json =>
+         {return res.status(201).json({csv:csvdata, json:json})})
 });
 
 
