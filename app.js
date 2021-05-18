@@ -183,17 +183,21 @@ const storage = multer.diskStorage({
 //var upload = multer({dest: "logged/"});
 
 app.post('/logged/uploaded_csv',async (req,res) => {
+     try {
+        if(!req.files) {
+            res.send({
+                status: false,
+                message: 'No file uploaded!'
+            });
+        } else {
+            //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+            let f = req.files.csv_file;
 
-     if(!req.files || Object.keys(req.files).length==0){
-          return res.send('No files were uploaded!');
-     }
+            //Use the mv() method to place the file in upload directory (i.e. "uploads")
+            f.mv('./logged/attd.csv');
 
-     let f = req.files.csv_file;
-     f.mv("./logged/attd.csv",function(err){
-          if(err){
-               res.send("Error"+err);
-          }
-          res.send({
+            //send response
+            res.send({
                 status: true,
                 message: 'File is uploaded',
                 data: {
@@ -202,7 +206,10 @@ app.post('/logged/uploaded_csv',async (req,res) => {
                     size: f.size
                 }
             });
-     });
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
      /*let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('csv_file');
 
      upload(req, res, function(err) {
