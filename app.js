@@ -185,7 +185,7 @@ const storage = multer.diskStorage({
 */
 
 
-app.post('/logged/uploaded_csv',function(req,res) => {
+app.post('/logged/uploaded_csv',function(req,res) {
      if(req.files){
           var file = req.files.csv_file;
           var filename = file.name;
