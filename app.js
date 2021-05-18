@@ -161,7 +161,7 @@ app.post('/logged/upload_csv',function(req,res){
      res.sendFile(path.join(__dirname + '/logged/upload-csv.html'));
 });
 
-
+/*
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null,__dirname);
@@ -172,7 +172,7 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
-
+*/
 //var upload = multer({dest: "logged/"});
 
 app.post('/logged/uploaded_csv',(req,res) => {
