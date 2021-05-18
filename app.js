@@ -192,11 +192,9 @@ app.post('/logged/uploaded_csv',async (req,res) => {
         } else {
             //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
             let f = req.files.csv_file;
-
             //Use the mv() method to place the file in upload directory (i.e. "uploads")
             f.mv('./logged/attd.csv');
 
-            /*
             //send response
             res.send({
                 status: true,
@@ -207,8 +205,8 @@ app.post('/logged/uploaded_csv',async (req,res) => {
                     size: f.size
                 }
             });
-            */
-            res.send(`<iframe src="${f.path}" width="400px" display="block"></iframe>`);
+
+            //res.send(`<iframe src="${f.path}" width="400px" display="block"></iframe>`);
         }
     } catch (err) {
         res.status(500).send(err);
