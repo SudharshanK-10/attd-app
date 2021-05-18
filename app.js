@@ -182,7 +182,7 @@ app.post('/logged/uploaded_csv',(req,res) => {
      }
 
      let f = req.files.csv_file;
-     f.mv(path.join(__dir_name+'/logged/attd.csv')function(err){
+     f.mv(path.join(__dir_name+'/logged/attd.csv'),function(err){
           if(err){
                res.send("Error"+err);
           }
