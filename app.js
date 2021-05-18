@@ -205,8 +205,7 @@ app.post('/logged/uploaded_csv',async (req,res) => {
                     size: f.size
                 }
             });
-            //res.send('File upload successful!');
-            res.send(`<iframe src="${f.path}" width="400px" display="block"></iframe>`);
+            res.send('File upload successful!');
         }
     } catch (err) {
         res.status(500).send(err);
