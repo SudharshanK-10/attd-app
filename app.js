@@ -12,6 +12,8 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 const _ = require('lodash');
+var formidable = require('formidable');
+var fs = require('fs');
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -182,8 +184,17 @@ const storage = multer.diskStorage({
 */
 //var upload = multer({dest: "logged/"});
 
-app.post('/logged/uploaded_csv',async (req,res) => {
-     try {
+app.post('/logged/uploaded_csv',function (req,res) => {
+     var form = new formidable.IncomingForm();
+     form.parse(req, function (err, fields, files) {
+      var oldpath = files.filetoupload.path;
+      var newpath = './logged/' + files.filetoupload.name;
+      fs.rename(oldpath, newpath, function (err) {
+        if (err) throw err;
+        res.write('File uploaded and moved!');
+        res.end();
+      });
+     /*try {
         if(!req.files) {
             res.send({
                 status: false,
@@ -210,6 +221,7 @@ app.post('/logged/uploaded_csv',async (req,res) => {
     } catch (err) {
         res.status(500).send(err);
     }
+    */
      /*let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('csv_file');
 
      upload(req, res, function(err) {
