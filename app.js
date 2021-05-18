@@ -6,14 +6,14 @@ const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const saltrounds = 10;
-const cors = require('cors');
-const multer = require('multer');
+//const cors = require('cors');
+//const multer = require('multer');
 //const helpers = require('./helpers'); //identify the csv files
-//const fileUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload');
 //const morgan = require('morgan');
 //const _ = require('lodash');
 //var formidable = require('formidable');
-const fs = require('fs');
+//const fs = require('fs');
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 //app.use(express.static(__dirname + '/logged'));
-//app.use(fileUpload());
+app.use(fileUpload());
 /*app.use(fileUpload({
     createParentPath: true
 }));
@@ -183,39 +183,23 @@ const storage = multer.diskStorage({
     }
 });
 */
-const upload = multer({dest: "/app/logged"});
 
-const handleError = (err, res) => {
-  res
-    .status(500)
-    .contentType("text/plain")
-    .end("Oops! Something went wrong!");
-};
 
-app.post('/logged/uploaded_csv',upload.single('csv_file'),(req,res) => {
-     const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, "./logged/attd.csv");
-
-    console.log(`Old path: ${tempPath}, New path: ${targetPath}`);
-    if (path.extname(req.file.originalname).toLowerCase() === ".csv") {
-      fs.rename(tempPath, targetPath, err => {
-        if (err) return handleError(err, res);
-
-        res
-          .status(200)
-          .contentType("csv")
-          .end("File uploaded!");
-      });
-    } else {
-      fs.unlink(tempPath, err => {
-        if (err) return handleError(err, res);
-
-        res
-          .status(403)
-          .contentType("text/plain")
-          .end("Only .csv files are allowed!");
-      });
-    }
+app.post('/logged/uploaded_csv',function(req,res) => {
+     if(req.files){
+          var file = req.files.csv_file;
+          var filename = file.name;
+          console.log(file);
+          file.mv("./logged/"+filename,function(err){
+               if(err){
+                    console.log(error);
+                    res.send("ERROR in uploading file!");
+               }
+               else{
+                    res.send("File upload  successful!");
+               }
+          });
+     }
 });
 
 
