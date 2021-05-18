@@ -193,7 +193,7 @@ app.post('/logged/uploaded_csv',async (req,res) => {
             //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
             let f = req.files.csv_file;
             //Use the mv() method to place the file in upload directory (i.e. "uploads")
-            f.mv('./logged/');
+            f.mv('./logged/'+f.name);
 
             //send response
             console.log({
