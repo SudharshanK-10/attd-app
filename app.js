@@ -7,13 +7,13 @@ const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const saltrounds = 10;
 const cors = require('cors');
-//const multer = require('multer');
+const multer = require('multer');
 //const helpers = require('./helpers'); //identify the csv files
-const fileUpload = require('express-fileupload');
-const morgan = require('morgan');
-const _ = require('lodash');
-var formidable = require('formidable');
-var fs = require('fs');
+//const fileUpload = require('express-fileupload');
+//const morgan = require('morgan');
+//const _ = require('lodash');
+//var formidable = require('formidable');
+const fs = require('fs');
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -182,72 +182,31 @@ const storage = multer.diskStorage({
     }
 });
 */
-//var upload = multer({dest: "logged/"});
+const upload = multer({dest: "/app/logged"});
 
-app.post('/logged/uploaded_csv',function (req,res)  {
-     var form = new formidable.IncomingForm();
-     form.parse(req, function (err, fields, files) {
-      var oldpath = req.files.csv_file.path;
-      var newpath = './logged/' + req.files.csv_file.name;
+app.post('/logged/uploaded_csv',upload.single('csv_file'),(req,res) => {
+     const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, "./logged/attd.csv");
 
-      fs.rename(oldpath, newpath, function (err) {
-        if (err) throw err;
-        res.write('File uploaded and moved!');
-        res.end();
+    if (path.extname(req.file.originalname).toLowerCase() === ".csv") {
+      fs.rename(tempPath, targetPath, err => {
+        if (err) return handleError(err, res);
+
+        res
+          .status(200)
+          .contentType("csv")
+          .end("File uploaded!");
       });
-     });
-     /*try {
-        if(!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded!'
-            });
-        } else {
-            //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-            let f = req.files.csv_file;
-            //Use the mv() method to place the file in upload directory (i.e. "uploads")
-            f.mv('./logged/'+f.name);
+    } else {
+      fs.unlink(tempPath, err => {
+        if (err) return handleError(err, res);
 
-            //send response
-            console.log({
-                status: true,
-                message: 'File is uploaded',
-                data: {
-                    name: f.name,
-                    mimetype: f.mimetype,
-                    size: f.size
-                }
-            });
-            res.send('File upload successful!');
-        }
-    } catch (err) {
-        res.status(500).send(err);
+        res
+          .status(403)
+          .contentType("text/plain")
+          .end("Only .csv files are allowed!");
+      });
     }
-    */
-     /*let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('csv_file');
-
-     upload(req, res, function(err) {
-        // req.file contains information of uploaded file
-        // req.body contains information of text fields, if there were any
-
-        if (req.fileValidationError) {
-            return res.send(req.fileValidationError);
-        }
-        else if (!req.file) {
-            return res.send('Please select an csv to upload');
-        }
-        else if (err instanceof multer.MulterError) {
-            return res.send(err);
-        }
-        else if (err) {
-            return res.send(err);
-        }
-
-        const file = req.file;
-        console.log(file);
-        res.send(`<iframe src="${file.path}" width="400px" display="block"></iframe>`);
-    });
-    */
 });
 
 
