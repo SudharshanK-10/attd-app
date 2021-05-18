@@ -196,6 +196,7 @@ app.post('/logged/uploaded_csv',upload.single('csv_file'),(req,res) => {
      const tempPath = req.file.path;
     const targetPath = path.join(__dirname, "./logged/attd.csv");
 
+    console.log(`Old path: ${tempPath}, New path: ${targetPath}`);
     if (path.extname(req.file.originalname).toLowerCase() === ".csv") {
       fs.rename(tempPath, targetPath, err => {
         if (err) return handleError(err, res);
