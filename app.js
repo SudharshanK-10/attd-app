@@ -191,7 +191,7 @@ app.post('/logged/uploaded_csv',(req,res) => {
      //csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
      csvdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
      console.log(`${csvdata}`);
-     csvdata = csvdata.split("\t");
+     //csvdata = csvdata.split("\t");
 
        return csvtojson().fromString(csvdata).then(json =>
          {return res.status(201).json({json:json})})
