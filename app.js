@@ -6,9 +6,10 @@ const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const saltrounds = 10;
-const cors = require('cors');
-const multer = require('multer');
-const helpers = require('./helpers'); //identify the csv files
+//const cors = require('cors');
+//const multer = require('multer');
+//const helpers = require('./helpers'); //identify the csv files
+const fileUpload = require('express-fileupload');
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true }));
@@ -16,8 +17,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/logged'));
-
+//app.use(express.static(__dirname + '/logged'));
+app.use(fileUpload());
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
 
@@ -175,7 +176,19 @@ const storage = multer.diskStorage({
 //var upload = multer({dest: "logged/"});
 
 app.post('/logged/uploaded_csv',(req,res) => {
-     let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('csv_file');
+
+     if(!req.files || Object.keys(req.files).length==0){
+          return res.send('No files were uploaded!');
+     }
+
+     let f = req.files.csv_file;
+     f.mv(path.join(__dir_name+'/logged/attd.csv')function(err){
+          if(err){
+               res.send("Error"+err);
+          }
+          res.send("File uploaded successfully!");
+     });
+     /*let upload = multer({ storage: storage, fileFilter: helpers.csvFilter }).single('csv_file');
 
      upload(req, res, function(err) {
         // req.file contains information of uploaded file
@@ -198,6 +211,7 @@ app.post('/logged/uploaded_csv',(req,res) => {
         console.log(file);
         res.send(`<iframe src="${file.path}" width="400px" display="block"></iframe>`);
     });
+    */
 });
 
 
