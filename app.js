@@ -23,9 +23,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 //app.use(express.static(__dirname + '/logged'));
 //app.use(fileUpload());
-app.use(fileUpload({
+/*app.use(fileUpload({
     createParentPath: true
 }));
+*/
 app.use(morgan('dev'));
 app.use(cors());
 
