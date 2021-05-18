@@ -196,6 +196,7 @@ app.post('/logged/uploaded_csv',async (req,res) => {
             //Use the mv() method to place the file in upload directory (i.e. "uploads")
             f.mv('./logged/attd.csv');
 
+            /*
             //send response
             res.send({
                 status: true,
@@ -206,6 +207,8 @@ app.post('/logged/uploaded_csv',async (req,res) => {
                     size: f.size
                 }
             });
+            */
+            res.send(`<iframe src="${f.path}" width="400px" display="block"></iframe>`);
         }
     } catch (err) {
         res.status(500).send(err);
