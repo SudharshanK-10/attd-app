@@ -196,7 +196,7 @@ app.post('/logged/uploaded_csv',async (req,res) => {
             f.mv('./logged/');
 
             //send response
-            res.send({
+            console.log({
                 status: true,
                 message: 'File is uploaded',
                 data: {
@@ -205,8 +205,8 @@ app.post('/logged/uploaded_csv',async (req,res) => {
                     size: f.size
                 }
             });
-
-            //res.send(`<iframe src="${f.path}" width="400px" display="block"></iframe>`);
+            //res.send('File upload successful!');
+            res.send(`<iframe src="${f.path}" width="400px" display="block"></iframe>`);
         }
     } catch (err) {
         res.status(500).send(err);
