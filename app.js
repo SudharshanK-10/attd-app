@@ -185,6 +185,13 @@ const storage = multer.diskStorage({
 */
 const upload = multer({dest: "/app/logged"});
 
+const handleError = (err, res) => {
+  res
+    .status(500)
+    .contentType("text/plain")
+    .end("Oops! Something went wrong!");
+};
+
 app.post('/logged/uploaded_csv',upload.single('csv_file'),(req,res) => {
      const tempPath = req.file.path;
     const targetPath = path.join(__dirname, "./logged/attd.csv");
