@@ -188,6 +188,11 @@ let csvdata = "text";
 
 app.post('/logged/uploaded_csv',(req,res) => {
      csvdata = req.files.csv_file.data.toString('utf16le');
+     csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
+     csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
+     csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
+     csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
+     csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
        return csvtojson().fromString(csvdata).then(json =>
          {return res.status(201).json({json:json})})
 });
