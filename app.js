@@ -190,12 +190,29 @@ app.post('/logged/uploaded_csv',(req,res) => {
      csvdata = req.files.csv_file.data.toString('utf16le');
      //csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
      csvdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
+     /*
      console.log(`${csvdata}`);
      var csvdata_array = csvdata.split(" ");
      csv = csvdata_array.join();
 
        return csvtojson().fromString(csvdata).then(json =>
          {return res.status(201).json({json:json})})
+     */
+     var lines=csvdata.split("\n");
+     var result = [];
+     var headers=lines[0].split(",");
+
+     for(var i=1;i<lines.length;i++){
+	  var obj = {};
+	  var currentline=lines[i].split(",");
+
+	  for(var j=0;j<headers.length;j++){
+		  obj[headers[j]] = currentline[j];
+	  }
+	  result.push(obj);
+  }
+     //return result; //JavaScript object
+     return res.json(JSON.stringify(result)); //JSON
 });
 
 
