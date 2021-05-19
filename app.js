@@ -200,11 +200,11 @@ app.post('/logged/uploaded_csv',(req,res) => {
      */
      var lines=csvdata.split("\n");
      var result = [];
-     var headers=lines[0].split(",");
+     var headers=lines[0].split("\t");
 
      for(var i=1;i<lines.length;i++){
 	  var obj = {};
-	  var currentline=lines[i].split(",");
+	  var currentline=lines[i].split("\t");
 
 	  for(var j=0;j<headers.length;j++){
 		  obj[headers[j]] = currentline[j];
