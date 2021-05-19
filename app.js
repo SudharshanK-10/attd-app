@@ -211,6 +211,12 @@ app.post('/logged/uploaded_csv',(req,res) => {
 	  }
 	  result.push(obj);
   }
+     result.forEach(obj => {
+          Object.entries(obj).forEach(([key, value]) => {
+             console.log(`${key} ${value}`);
+          });
+          console.log('-------------------');
+     });
      //return result; //JavaScript object
      return res.json(result); //JSON
 });
