@@ -213,7 +213,7 @@ app.post('/logged/uploaded_csv',(req,res) => {
   }
      result.forEach(obj => {
           Object.entries(obj).forEach(([key, value]) => {
-             console.log(`${key} ${value}`);
+             console.log(`${key} : ${value}`);
           });
           console.log('-------------------');
      });
