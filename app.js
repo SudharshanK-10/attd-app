@@ -205,13 +205,13 @@ app.post('/logged/uploaded_csv',(req,res) => {
 	  result.push(obj);
   }
      result.forEach(obj => {
+          if(obj["Role"]=="Attendee"){
           Object.entries(obj).forEach(([key, value]) => {
              //insert into table takes place here
-             if(key=="Attendee"){
                console.log(`${key} : ${value}`);
-          }
           });
           console.log('-------------------');
+     }
      });
      //return result; //JavaScript object
      return res.json(result); //JSON
