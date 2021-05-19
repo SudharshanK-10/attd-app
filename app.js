@@ -212,7 +212,7 @@ app.post('/logged/uploaded_csv',(req,res) => {
 	  result.push(obj);
   }
      //return result; //JavaScript object
-     return res.json(JSON.stringify(result)); //JSON
+     return res.json(result); //JSON
 });
 
 
