@@ -187,17 +187,10 @@ const storage = multer.diskStorage({
 let csvdata = "text";
 
 app.post('/logged/uploaded_csv',(req,res) => {
+     //validate the lec,cls and faculty id
      csvdata = req.files.csv_file.data.toString('utf16le');
-     //csvdata = csvdata.substring(csvdata.indexOf("\n") + 1);
      csvdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
-     /*
-     console.log(`${csvdata}`);
-     var csvdata_array = csvdata.split(" ");
-     csv = csvdata_array.join();
 
-       return csvtojson().fromString(csvdata).then(json =>
-         {return res.status(201).json({json:json})})
-     */
      var lines=csvdata.split("\n");
      var result = [];
      var headers=lines[0].split("\t");
@@ -213,7 +206,10 @@ app.post('/logged/uploaded_csv',(req,res) => {
   }
      result.forEach(obj => {
           Object.entries(obj).forEach(([key, value]) => {
-             console.log(`${key} : ${value}`);
+             //insert into table takes place here
+             if(key=="Attendee"){
+               console.log(`${key} : ${value}`);
+          }
           });
           console.log('-------------------');
      });
