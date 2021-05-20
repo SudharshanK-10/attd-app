@@ -223,6 +223,9 @@ app.post('/logged/new_class_created/new_student/information',function(req,res){
 	  result.push(obj);
   }
      result.forEach(obj => {
+          if(obj["rollno"]==""){
+               return;
+          }
           Object.entries(obj).forEach(([key, value]) => {
              //insert into table takes place here
                console.log(`${key} : ${value}`);
