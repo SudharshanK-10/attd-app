@@ -96,7 +96,7 @@ app.post('/faculty', async(req, res) => {
      var result = await client.query(text,values);
      var faculty = result.rows;
 
-     if(typeof faculty[0].email!='undefined' && faculty[0].email==email){
+     if((typeof faculty[0] !='undefined') && faculty[0].email==email){
           return res.render('authenticate',{given:faculty});
      }
      client.release();
