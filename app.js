@@ -229,7 +229,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 
             console.log(`${key} : ${value}`);
 
-            if(key==='rollno'){
+            if(key=="rollno"){
                  console.log(value);
                  rollno = value;
                  console.log(rollno);
