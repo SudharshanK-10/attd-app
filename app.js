@@ -224,16 +224,14 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
   }
      result = JSON.parse(JSON.stringify(result));
 
-     for(obj in result) {
+     for(const obj of result) {
           if(typeof obj["email"]!='undefined'){
-               for(x in obj){
-                    console.log(x+" : "+obj[x]);
-                    if(x=="rollno"){
-                         rollno = obj[x];
-                         console.log(obj.rollno);
-                    }
-               }
+          Object.entries(obj).forEach(([key, value]) => {
+               console.log(`${key} : ${value}`);
+               console.log(typeof obj["rollno"]);
+          });
           console.log('-------------------');
+      }
           /*
           //populate the student table
           var text = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
@@ -287,7 +285,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
           });
           console.log('-------------------');
            //insert into table takes place here
-     }
+      }
      }
      //return result; //JavaScript object
      return res.json(result); //JSON
