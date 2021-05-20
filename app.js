@@ -223,18 +223,16 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  result.push(obj);
   }
      var rollno = "";
+
      for(const obj of result) {
           if(typeof obj["email"]!='undefined'){
-          Object.entries(obj).forEach(([key, value]) => {
-
-            console.log(`${key} : ${value}`);
-
-            if(key=="rollno"){
-                 console.log(value);
-                 rollno = value;
-                 console.log(rollno);
-          }
-          });
+               for(x in obj){
+                    console.log(x+" : "+obj[x]);
+                    if(x=="rollno"){
+                         rollno = obj[x];
+                         console.log(rollno);
+                    }
+               }
           console.log('-------------------');
           /*
           //populate the student table
