@@ -228,7 +228,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           if(typeof obj["email"]!='undefined'){
                for(x in obj){
                     console.log(x+" : "+obj[x]);
-                    if(x=="rollno"){
+                    if(x=="name"){
                          rollno = obj[x];
                          console.log(rollno);
                     }
