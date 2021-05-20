@@ -222,7 +222,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  }
 	  result.push(obj);
   }
-     result.forEach(obj => {
+     for(const obj of result) {
           if(typeof obj["email"]!='undefined'){
           Object.entries(obj).forEach(([key, value]) => {
             console.log(`${key} : ${value}`);
@@ -245,7 +245,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
            res.send("Error " + err);
          }
      }
-     });
+     }
 
      return res.render('student-detail-success');
 });
@@ -275,7 +275,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
 	  }
 	  result.push(obj);
   }
-     result.forEach(obj => {
+     for(const obj of result) {
           if(obj["Role"]=="Attendee"){
           Object.entries(obj).forEach(([key, value]) => {
                console.log(`${key} : ${value}`);
@@ -283,7 +283,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
           console.log('-------------------');
            //insert into table takes place here
      }
-     });
+     }
      //return result; //JavaScript object
      return res.json(result); //JSON
 });
