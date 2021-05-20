@@ -247,8 +247,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
            console.error(err);
            res.send("Error " + err);
       }*/
-     }
-     }
+          }
      return res.json(result);
      //return res.render('student-detail-success');
 });
