@@ -222,8 +222,8 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  }
 	  result.push(obj);
   }
-     var values = [];
      for(const obj of result) {
+          var values = [];
           if(typeof obj["email"]!='undefined'){
           Object.entries(obj).forEach(([key, value]) => {
                console.log(`${key} : ${value}`);
