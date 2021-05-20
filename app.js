@@ -231,8 +231,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           });
           console.log('-------------------');
       }
-          console.log(values);
-          /*
+
           //populate the student table
           var text = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
 
@@ -245,10 +244,9 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
          } catch (err) {
            console.error(err);
            res.send("Error " + err);
-      }*/
+      }
           }
-     return res.json(result);
-     //return res.render('student-detail-success');
+     return res.render('student-detail-success');
 });
 
 //uploading csv files
