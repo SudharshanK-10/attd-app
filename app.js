@@ -223,15 +223,18 @@ app.post('/logged/new_class_created/new_student/information',function(req,res){
 	  result.push(obj);
   }
      result.forEach(obj => {
-          if(obj["rollno"]==""){
-               return;
-          }
+          if(typeof obj["email"]!='undefined'){
           Object.entries(obj).forEach(([key, value]) => {
              //insert into table takes place here
                console.log(`${key} : ${value}`);
           });
           console.log('-------------------');
+     }
      });
+
+     //populate the student table
+
+
      //return result; //JavaScript object
      return res.json(result); //JSON
 });
