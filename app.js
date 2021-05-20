@@ -205,7 +205,7 @@ app.get('/logged/new_class_created/new_student',function(req,res){
 
 let studdata = "text";
 
-app.post('/logged/new_class_created/new_student/information',function(req,res){
+app.post('/logged/new_class_created/new_student/information',async(req,res) => {
      studdata = req.files.csv_file.data.toString('utf8');
      //studdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
 
@@ -257,7 +257,7 @@ app.post('/logged/upload_csv',function(req,res){
 
 let csvdata = "text";
 
-app.post('/logged/uploaded_csv',(req,res) => {
+app.post('/logged/uploaded_csv',async(req,res) => {
      //validate the lec,cls and faculty id
      csvdata = req.files.csv_file.data.toString('utf16le');
      csvdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
