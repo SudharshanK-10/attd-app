@@ -167,11 +167,45 @@ app.post('/logged', async(req, res) => {
     }
 });
 
+//create new class
+app.post('/logged/new_class',function(req,res){
+     res.render('new-class');
+});
+
+app.post('/logged/new_class_created',async(req,res) => {
+     var faculty_id = req.body.faculty_id;
+     var subject = req.body.subject;
+
+     const given  = {
+          'faculty_id' : faculty_id,
+          'subject'    : subject
+   };
+
+     var text = 'INSERT INTO class (faculty_id,subject) VALUES ($1,$2) RETURING *';
+     var values = [faculty_id,subject];
+
+     try {
+      const client = await pool.connect();
+      const result = await client.query(text,values);
+      const faculty = result.rows;
+      res.render('new-class-created',given);
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+
+});
+
+//new set of students
+app.post('/logged/new_class_created/new_student',function(req,res){
+     res.render('new-student');
+});
+
 //uploading csv files
 app.post('/logged/upload_csv',function(req,res){
      res.render('upload-csv');
 });
-
 /*
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
