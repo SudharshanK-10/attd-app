@@ -230,7 +230,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                     console.log(x+" : "+obj[x]);
                     if(x=="name"){
                          rollno = obj[x];
-                         console.log(rollno);
+                         console.log(obj.rollno);
                     }
                }
           console.log('-------------------');
