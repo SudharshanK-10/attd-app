@@ -181,7 +181,7 @@ app.post('/logged/new_class_created',async(req,res) => {
           'subject'    : subject
    };
 
-     var text = 'INSERT INTO class (faculty_id,subject) VALUES ($1,$2) RETURING *';
+     var text = 'INSERT INTO class (faculty_id,subject) VALUES ($1,$2) RETURNING *';
      var values = [faculty_id,subject];
 
      try {
