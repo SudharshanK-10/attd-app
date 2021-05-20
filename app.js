@@ -225,36 +225,36 @@ app.post('/logged/new_class_created/new_student/information',function(req,res){
      result.forEach(obj => {
           if(typeof obj["email"]!='undefined'){
           Object.entries(obj).forEach(([key, value]) => {
-             //insert into table takes place here
-               console.log(`${key} : ${value}`);
+            console.log(`${key} : ${value}`);
           });
           console.log('-------------------');
+
+
+          //populate the student table
+          var text = "INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *";
+          var values = [obj["rollno"],obj["name"],obj["dob"],obj["major"],obj["year"],obj["college"],obj["email"]];
+
+          try {
+           const client = await pool.connect();
+           const result = await client.query(text,values);
+           const faculty = result.rows;
+           console.log("success!");
+           client.release();
+         } catch (err) {
+           console.error(err);
+           res.send("Error " + err);
+         }
      }
      });
 
-     //populate the student table
-
-
-     //return result; //JavaScript object
-     return res.json(result); //JSON
+     return res.render('student-detail-success');
 });
 
 //uploading csv files
 app.post('/logged/upload_csv',function(req,res){
      res.render('upload-csv');
 });
-/*
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null,__dirname);
-    },
 
-    // By default, multer removes file extensions so let's add them back
-    filename: function(req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
-*/
 let csvdata = "text";
 
 app.post('/logged/uploaded_csv',(req,res) => {
@@ -278,16 +278,12 @@ app.post('/logged/uploaded_csv',(req,res) => {
      result.forEach(obj => {
           if(obj["Role"]=="Attendee"){
           Object.entries(obj).forEach(([key, value]) => {
-             //insert into table takes place here
                console.log(`${key} : ${value}`);
           });
           console.log('-------------------');
+           //insert into table takes place here
      }
      });
      //return result; //JavaScript object
      return res.json(result); //JSON
 });
-
-
-
-//app.listen(port, () => console.log(`listening on port ${port}!`));
