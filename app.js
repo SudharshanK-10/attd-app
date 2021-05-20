@@ -222,20 +222,19 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  }
 	  result.push(obj);
   }
-     result = JSON.parse(JSON.stringify(result));
-
+     var values = [];
      for(const obj of result) {
           if(typeof obj["email"]!='undefined'){
           Object.entries(obj).forEach(([key, value]) => {
                console.log(`${key} : ${value}`);
-               console.log(typeof obj["rollno"]);
+               values.push(value);
           });
           console.log('-------------------');
       }
+          console.log(values);
           /*
           //populate the student table
           var text = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
-          var values = [rollno,obj["name"],obj["dob"],obj["major"],obj["year"],obj["college"],obj["email"]];
 
           try {
            const client = await pool.connect();
