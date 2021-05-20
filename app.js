@@ -222,8 +222,8 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  }
 	  result.push(obj);
   }
-     result = JSON.parse(result);
-     
+     result = JSON.parse(JSON.stringify(result));
+
      for(obj in result) {
           if(typeof obj["email"]!='undefined'){
                for(x in obj){
