@@ -222,13 +222,13 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  }
 	  result.push(obj);
   }
-     var rollno = "";
-
-     for(const obj of result) {
+     result = JSON.parse(result);
+     
+     for(obj in result) {
           if(typeof obj["email"]!='undefined'){
                for(x in obj){
                     console.log(x+" : "+obj[x]);
-                    if(x=="name"){
+                    if(x=="rollno"){
                          rollno = obj[x];
                          console.log(obj.rollno);
                     }
