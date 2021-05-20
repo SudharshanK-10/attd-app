@@ -242,7 +242,8 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
            const result1 = await client.query(text1,values);
            var values2 = [class_id];
            const faculty = result1.rows;
-           values2.push(faculty.student_id);
+           values2.push(faculty[0].student_id);
+
            //inserting into belongsto table
            const result2 = await client.query(text2,values2);
            console.log("success!");
