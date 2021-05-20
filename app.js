@@ -202,6 +202,36 @@ app.post('/logged/new_class_created/new_student',function(req,res){
      res.render('new-student');
 });
 
+let studdata = "text";
+
+app.post('/logged/new_class_created/new_student/information',function(req,res){
+     studdata = req.files.csv_file.data.toString('utf16le');
+     //studdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
+
+     var lines=studdata.split("\n");
+     var result = [];
+     var headers=lines[0].split(",");
+
+     for(var i=1;i<lines.length;i++){
+	  var obj = {};
+	  var currentline=lines[i].split(",");
+
+	  for(var j=0;j<headers.length;j++){
+		  obj[headers[j]] = currentline[j];
+	  }
+	  result.push(obj);
+  }
+     result.forEach(obj => {
+          Object.entries(obj).forEach(([key, value]) => {
+             //insert into table takes place here
+               console.log(`${key} : ${value}`);
+          });
+          console.log('-------------------');
+     });
+     //return result; //JavaScript object
+     return res.json(result); //JSON
+});
+
 //uploading csv files
 app.post('/logged/upload_csv',function(req,res){
      res.render('upload-csv');
