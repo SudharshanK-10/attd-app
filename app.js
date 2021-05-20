@@ -206,7 +206,7 @@ app.get('/logged/new_class_created/new_student',function(req,res){
 let studdata = "text";
 
 app.post('/logged/new_class_created/new_student/information',function(req,res){
-     studdata = req.files.csv_file.data.toString('utf16le');
+     studdata = req.files.csv_file.data.toString('utf8');
      //studdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
 
      var lines=studdata.split("\n");
