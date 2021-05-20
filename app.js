@@ -206,6 +206,7 @@ app.get('/logged/new_class_created/new_student',function(req,res){
 let studdata = "text";
 
 app.post('/logged/new_class_created/new_student/information',async(req,res) => {
+     var class_id = req.body.class_id;
      studdata = req.files.csv_file.data.toString('utf8');
      //studdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
 
@@ -232,12 +233,18 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           console.log('-------------------');
 
           //populate the student table
-          var text = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
+          var text1 = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
+          var text2 = 'INSERT INTO belongsto (student_id,class_id) VALUES ($2,$1) RETURNING *';
 
           try {
            const client = await pool.connect();
-           const result = await client.query(text,values);
+           //inserting into student table
+           const result1 = await client.query(text1,values);
+           var values2 = [class_id];
            const faculty = result.rows;
+           values2.push(faculty[0].student_id);
+           //inserting into belongsto table
+           const result2 = await client.query(text2,values2);
            console.log("success!");
            client.release();
          } catch (err) {
