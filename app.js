@@ -198,7 +198,7 @@ app.post('/logged/new_class_created',async(req,res) => {
 });
 
 //new set of students
-app.post('/logged/new_class_created/new_student',function(req,res){
+app.get('/logged/new_class_created/new_student',function(req,res){
      res.render('new-student');
 });
 
