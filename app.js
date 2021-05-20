@@ -188,7 +188,7 @@ app.post('/logged/new_class_created',async(req,res) => {
       const client = await pool.connect();
       const result = await client.query(text,values);
       const faculty = result.rows;
-      res.render('new-class-created',given);
+      res.render('new-class-created',{given:faculty});
       client.release();
     } catch (err) {
       console.error(err);
