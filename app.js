@@ -229,12 +229,12 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 
             console.log(`${key} : ${value}`);
             if(key=='rollno'){
-                 rollno =value;
+                 rollno = value;
             }
           });
           console.log('-------------------');
 
-          //console.log(rollno);
+          console.log(rollno);
           /*
           //populate the student table
           var text = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
