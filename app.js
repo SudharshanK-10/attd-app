@@ -223,7 +223,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  }
 	  result.push(obj);
   }
-       
+
      for(const obj of result) {
           var values = [];
           if(typeof obj["email"]!='undefined'){
@@ -330,7 +330,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
                //get student_id using Email
                var text = 'SELECT * FROM student WHERE email=$1';
                var values = [obj["email"]];
-               var student_id = "";
+               console.log(values);
 
                try {
                 const client = await pool.connect();
