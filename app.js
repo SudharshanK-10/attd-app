@@ -267,10 +267,11 @@ app.post('/logged/new_lecture/created',async(req,res) => {
      var class_id = req.body.class_id;
      var duration = req.body.duration;
      var start_time = req.body.start_time;
+     var threshold_duration = req.body.threshold_duration;
 
      //insert into lecture table
-     var text = 'INSERT INTO lecture (class_id,duration,start_time) VALUES ($1,$2,$3) RETURNING *';
-     var values = [class_id,duration,start_time];
+     var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_duration) VALUES ($1,$2,$3,$4) RETURNING *';
+     var values = [class_id,duration,start_time,threshold_duration];
 
      try {
       const client = await pool.connect();
