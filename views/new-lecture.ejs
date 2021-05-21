@@ -1,0 +1,47 @@
+<html>
+     <head>
+          <title>NEW LECTURE/title>
+     </head>
+<body>
+     <div class="frame">
+     <form method="post" action="/logged/new_lecture/created" enctype="multipart/form-data">
+     <b>NEW LECTURE</b><br><br>
+     Class id :
+     <input type="text" name="class_id" placeholder="Enter class id" required>
+     <br><br>
+     Duration :
+     <input type="text" name="duration" placeholder="Enter lecture duration" required>
+     <br><br>
+     Start Time : (1999-01-08 04:05:06) <br><br>
+     <input type="text" name="start_time" placeholder="Enter start time" required>
+     <br><br>
+     <input type="submit" value="Create">
+     </form>
+     </div>
+<style>
+     body{
+          background:linear-gradient(#07F5F5,white);
+     }
+     form{
+          font-family:calibri;
+          font-size:25px;
+          border:2px solid black;
+          border-radius:50px;
+          padding:50px 25px;
+          background:linear-gradient(#FFC9FD,white);
+     }
+     .frame{
+          position:absolute;
+          top:50%;
+          left:50%;
+          transform: translate(-50%,-50%);
+          text-align:center;
+
+     }
+     b{
+          font-size:30px;
+     }
+
+</style>
+</body>
+</html>

@@ -258,6 +258,34 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
      return res.render('student-detail-success');
 });
 
+//create a new lecture
+app.post('/logged/new_lecture',function(req,res){
+     res.render('new-lecture');
+});
+
+app.post('/logged/new_lecture/created',async(req,res) => {
+     var class_id = req.body.class_id;
+     var duration = req.body.duration;
+     var start_time = req.body.start_time;
+
+     //insert into lecture table
+     var text = 'INSERT INTO lecture (class_id,duration,start_time) VALUES ($1,$2,$3) RETURNING *';
+     var values = [class_id,duration,start_time];
+
+     try {
+      const client = await pool.connect();
+      const result = await client.query(text,values);
+      const faculty = result.rows;
+      res.render('new-lecture-created',{given:faculty});
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+
+});
+
+
 //uploading csv files
 app.post('/logged/upload_csv',function(req,res){
      res.render('upload-csv');
