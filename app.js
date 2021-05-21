@@ -291,13 +291,13 @@ app.post('/logged/uploaded_csv',async(req,res) => {
      var lecture_duration = "";
      var start_time = "";
      for(var i=0;i<result.length;i++){
-          if(obj[i]["Role"]=="Organizer"){
+          if(result[i]["Role"]=="Organizer"){
                //lecture duration
-               lecture_duration = obj[i]["Duration"];
+               lecture_duration = result[i]["Duration"];
                lecture_duration = lecture_duration.substring(0,lecture_duration.indexOf("m"));
 
                //start time
-               start_time = obj[i]["Join time"];
+               start_time = result[i]["Join time"];
                break;
           }
      }
