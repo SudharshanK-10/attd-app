@@ -304,7 +304,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
 
      //insert into lecture table
      var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_percent) VALUES ($1,$2,$3,$4) RETURNING *';
-     var values = [class_id,duration,start_time,threshold_percent];
+     var values = [class_id,lecture_duration,start_time,threshold_percent];
      var lecture_id = "";
 
      try {
