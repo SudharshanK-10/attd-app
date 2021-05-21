@@ -223,6 +223,8 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 	  }
 	  result.push(obj);
   }
+     return res.json(result);
+     
      for(const obj of result) {
           var values = [];
           if(typeof obj["email"]!='undefined'){
