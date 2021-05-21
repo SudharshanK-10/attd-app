@@ -348,7 +348,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
              student_duration = student_duration.substring(0,student_duration.indexOf("m"));
              var ispresent = 0;
 
-             if(student_duration >= (lecture_duration * threshold_percent)){
+             if(student_duration >= (lecture_duration * threshold_percent / 100)){
                   ispresent = 1;
              }
 
