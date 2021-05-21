@@ -232,7 +232,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           });
           console.log('-------------------');
 
-          //populate the student table
+          //populate the student table and belongsto table
           var text1 = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
           var text2 = 'INSERT INTO belongsto (student_id,class_id) VALUES ($2,$1) RETURNING *';
 
