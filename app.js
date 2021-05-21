@@ -329,7 +329,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
 
                //get student_id using Email
                var text = 'SELECT * FROM student WHERE email=$1';
-               var values = [obj["email"]];
+               var values = [obj["Email"]];
                console.log(values);
 
                try {
