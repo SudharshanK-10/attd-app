@@ -6,14 +6,14 @@
      <div class="frame">
      <form method="post" action="/logged/uploaded_csv" enctype="multipart/form-data">
      <b>UPLOAD CSV</b><br><br>
-     Faculty id :
-     <input type="text" name="faculty_id" placeholder="Enter faculty_id" required>
-     <br><br>
      Class id :
      <input type="text" name="class_id" placeholder="Enter class id" required>
      <br><br>
-     Lecture id :
-     <input type="text" name="lecture_id" placeholder="Enter lecture id" required>
+     Threshold Duration (in %) :
+     <input type="text" name="threshold_percent" placeholder="Enter threshold percent" required>
+     <br>
+     <div class="desc"> (Minimum duration a student must attend in order to be marked as present)
+     </div>
      <br><br>
      CSV file :
      <input type="file" name="csv_file" required>
@@ -43,6 +43,9 @@
      }
      b{
           font-size:30px;
+     }
+     .desc{
+          line-height: 300%;
      }
 
 </style>

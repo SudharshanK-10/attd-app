@@ -258,36 +258,6 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
      return res.render('student-detail-success');
 });
 
-//create a new lecture
-app.post('/logged/new_lecture',function(req,res){
-     res.render('new-lecture');
-});
-
-app.post('/logged/new_lecture/created',async(req,res) => {
-     var class_id = req.body.class_id;
-     var duration = req.body.duration;
-     var start_time = req.body.start_time;
-     var threshold_duration = req.body.threshold_duration;
-
-     //insert into lecture table
-     var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_duration) VALUES ($1,$2,$3,$4) RETURNING *';
-     var values = [class_id,duration,start_time,threshold_duration];
-
-     try {
-      const client = await pool.connect();
-      const result = await client.query(text,values);
-      const faculty = result.rows;
-      res.render('new-lecture-created',{given:faculty});
-      client.release();
-    } catch (err) {
-      console.error(err);
-      //res.send("Error " + err);
-      res.send("Class id doesn't exists (or) Class already has a lecture at the time!")
-    }
-
-});
-
-
 //uploading csv files
 app.post('/logged/upload_csv',function(req,res){
      res.render('upload-csv');
@@ -296,10 +266,13 @@ app.post('/logged/upload_csv',function(req,res){
 let csvdata = "text";
 
 app.post('/logged/uploaded_csv',async(req,res) => {
-     //validate the lec,cls and faculty id
+     var class_id = req.body.class_id;
+     var threshold_percent = req.body.threshold_percent;
+
      csvdata = req.files.csv_file.data.toString('utf16le');
      csvdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
 
+     //converting csv file to json array
      var lines=csvdata.split("\n");
      var result = [];
      var headers=lines[0].split("\t");
@@ -313,15 +286,84 @@ app.post('/logged/uploaded_csv',async(req,res) => {
 	  }
 	  result.push(obj);
   }
+
+     //getting lecture duration and start time
+     var lecture_duration = "";
+     var start_time = "";
+     for(var i=0;i<result.length;i++){
+          if(obj[i]["Role"]=="Organizer"){
+               //lecture duration
+               lecture_duration = obj[i]["Duration"];
+               lecture_duration = lecture_duration.substring(0,lecture_duration.indexOf("m"));
+
+               //start time
+               start_time = obj[i]["Join time"];
+               break;
+          }
+     }
+
+     //insert into lecture table
+     var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_percent) VALUES ($1,$2,$3,$4) RETURNING *';
+     var values = [class_id,duration,start_time,threshold_percent];
+     var lecture_id = "";
+
+     try {
+      const client = await pool.connect();
+      const result = await client.query(text,values);
+      const faculty = result.rows;
+      lecture_id = faculty[0].lecture_id;
+      client.release();
+    } catch (err) {
+      console.error(err);
+      //res.send("Error " + err);
+      res.send("Class id doesn't exists (or) Class already has a lecture at the time!")
+    }
+
+
+     //insert into attends table
      for(const obj of result) {
           if(obj["Role"]=="Attendee"){
-          Object.entries(obj).forEach(([key, value]) => {
-               console.log(`${key} : ${value}`);
-          });
-          console.log('-------------------');
-           //insert into table takes place here
+
+               //get student_id using Email
+               var text = 'SELECT * FROM student WHERE email=$1';
+               var values = [obj["email"]];
+               var student_id = "";
+
+               try {
+                const client = await pool.connect();
+                const ans = await client.query(text,values);
+                const faculty = ans.rows;
+                student_id = faculty[0].student_id;
+                client.release();
+              } catch (err) {
+                console.error(err);
+                res.send("Error " + err);
+              }
+
+             //calculate ispresent
+             var student_duration = obj[i]["Duration"];
+             student_duration = student_duration.substring(0,student_duration.indexOf("m"));
+             var ispresent = 0;
+
+             if(student_duration >= (lecture_duration * threshold_percent)){
+                  ispresent = 1;
+             }
+
+             //inserting into attends
+              text = 'INSERT INTO attends (student_id,lecture_id,ispresent) VALUES ($1,$2,$3)';
+              values = [student_id,lecture_id,ispresent];
+
+              try {
+               const client = await pool.connect();
+               const ans = await client.query(text,values);
+               console.log(student_id+' : success!')
+               client.release();
+            } catch (err) {
+               console.error(err);
+               res.send("Error " + err);
+            }
+
       }
      }
-     //return result; //JavaScript object
-     return res.json(result); //JSON
+          return res.render('uploaded-csv');
 });
