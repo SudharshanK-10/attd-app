@@ -280,7 +280,8 @@ app.post('/logged/new_lecture/created',async(req,res) => {
       client.release();
     } catch (err) {
       console.error(err);
-      res.send("Error " + err);
+      //res.send("Error " + err);
+      res.send("Class id doesn't exists (or) Class already has a lecture at the time!")
     }
 
 });
