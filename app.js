@@ -344,7 +344,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
               }
 
              //calculate ispresent
-             var student_duration = obj[i]["Duration"];
+             var student_duration = obj["Duration"];
              student_duration = student_duration.substring(0,student_duration.indexOf("m"));
              var ispresent = 0;
 
