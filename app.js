@@ -290,6 +290,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
      //getting lecture duration and start time
      var lecture_duration = "";
      var start_time = "";
+
      for(var i=0;i<result.length;i++){
           if(result[i]["Role"]=="Organizer"){
                //lecture duration
@@ -297,10 +298,12 @@ app.post('/logged/uploaded_csv',async(req,res) => {
                lecture_duration = lecture_duration.substring(0,lecture_duration.indexOf("m"));
 
                //start time
-               start_time = result[i]["Join time"];
+               start_time = result[i]["Join Time"];
                break;
           }
      }
+
+     console.log(lecture_duration+" --- "+start_time);
 
      //insert into lecture table
      var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_percent) VALUES ($1,$2,$3,$4) RETURNING *';
@@ -309,14 +312,13 @@ app.post('/logged/uploaded_csv',async(req,res) => {
 
      try {
       const client = await pool.connect();
-      const result = await client.query(text,values);
-      const faculty = result.rows;
+      const ans = await client.query(text,values);
+      const faculty = ans.rows;
       lecture_id = faculty[0].lecture_id;
       client.release();
     } catch (err) {
       console.error(err);
-      //res.send("Error " + err);
-      res.send("Class id doesn't exists (or) Class already has a lecture at the time!")
+      res.send("Error " + err);
     }
 
 
