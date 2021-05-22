@@ -368,5 +368,5 @@ app.post('/logged/uploaded_csv',async(req,res) => {
 
       }
      }
-          return res.render('uploaded-csv');
+          return res.render('uploaded-csv',{lecture_id:lecture_id});
 });
