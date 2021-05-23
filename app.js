@@ -268,7 +268,7 @@ let csvdata = "text";
 
 app.post('/logged/uploaded_csv',async(req,res) => {
      var class_id = req.body.class_id;
-     var threshold_duration = req.body.threshold_duration;
+     var threshold_percent = req.body.threshold_percent;
 
      csvdata = req.files.csv_file.data.toString('utf16le');
      csvdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
@@ -307,8 +307,8 @@ app.post('/logged/uploaded_csv',async(req,res) => {
      console.log(lecture_duration+" --- "+start_time);
 
      //insert into lecture table
-     var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_duration) VALUES ($1,$2,$3,$4) RETURNING *';
-     var values = [class_id,lecture_duration,start_time,threshold_duration];
+     var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_percent) VALUES ($1,$2,$3,$4) RETURNING *';
+     var values = [class_id,lecture_duration,start_time,threshold_percent];
      var lecture_id = "";
 
      try {
@@ -349,7 +349,7 @@ app.post('/logged/uploaded_csv',async(req,res) => {
              student_duration = student_duration.substring(0,student_duration.indexOf("m"));
              var ispresent = 0;
 
-             if(student_duration >=  threshold_duration){
+             if(student_duration >= (lecture_duration * threshold_percent / 100)){
                   ispresent = 1;
              }
 
