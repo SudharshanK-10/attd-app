@@ -42,18 +42,96 @@ const pool = new Pool({
 });
 
 //displaying the database
-app.get('/db', async (req, res) => {
+app.get('/FACULTY', async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM faculty');
       const faculty = { 'faculty': (result) ? result.rows : null};
-      res.render('db',faculty);
+      res.render('faculty',faculty);
       client.release();
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
     }
   });
+
+app.get('/STUDENT', async (req, res) => {
+      try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM student');
+        const faculty = { 'faculty': (result) ? result.rows : null};
+        res.render('student',faculty);
+        client.release();
+      } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+      }
+    });
+
+app.get('/CLASS', async (req, res) => {
+       try {
+          const client = await pool.connect();
+          const result = await client.query('SELECT * FROM class');
+          const faculty = { 'faculty': (result) ? result.rows : null};
+          res.render('class',faculty);
+          client.release();
+       } catch (err) {
+          console.error(err);
+          res.send("Error " + err);
+       }
+      });
+
+app.get('/CLASS', async (req, res) => {
+        try {
+            const client = await pool.connect();
+            const result = await client.query('SELECT * FROM class');
+            const faculty = { 'faculty': (result) ? result.rows : null};
+            res.render('class',faculty);
+            client.release();
+        } catch (err) {
+            console.error(err);
+            res.send("Error " + err);
+        }
+       });
+
+app.get('/LECTURE', async (req, res) => {
+     try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM lecture');
+        const faculty = { 'faculty': (result) ? result.rows : null};
+        res.render('lecture',faculty);
+        client.release();
+         } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+     }
+});
+
+app.get('/ATTENDS', async (req, res) => {
+     try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM attends');
+        const faculty = { 'faculty': (result) ? result.rows : null};
+        res.render('attends',faculty);
+        client.release();
+         } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+     }
+});
+
+app.get('/BELONGSTO', async (req, res) => {
+     try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM belongsto');
+        const faculty = { 'faculty': (result) ? result.rows : null};
+        res.render('belongsto',faculty);
+        client.release();
+         } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+     }
+});
 
 //initial register page
 app.get('/', function(req, res) {
