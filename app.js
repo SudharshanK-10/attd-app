@@ -268,7 +268,7 @@ let csvdata = "text";
 
 app.post('/logged/uploaded_csv',async(req,res) => {
      var class_id = req.body.class_id;
-     var threshold_percent = req.body.threshold_percent;
+     var threshold_duration = req.body.threshold_duration;
 
      csvdata = req.files.csv_file.data.toString('utf16le');
      csvdata = csvdata.substring(csvdata.indexOf("\nFull Name") + 1);
@@ -307,8 +307,8 @@ app.post('/logged/uploaded_csv',async(req,res) => {
      console.log(lecture_duration+" --- "+start_time);
 
      //insert into lecture table
-     var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_percent) VALUES ($1,$2,$3,$4) RETURNING *';
-     var values = [class_id,lecture_duration,start_time,threshold_percent];
+     var text = 'INSERT INTO lecture (class_id,duration,start_time,threshold_duration) VALUES ($1,$2,$3,$4) RETURNING *';
+     var values = [class_id,lecture_duration,start_time,threshold_duration];
      var lecture_id = "";
 
      try {
@@ -349,13 +349,13 @@ app.post('/logged/uploaded_csv',async(req,res) => {
              student_duration = student_duration.substring(0,student_duration.indexOf("m"));
              var ispresent = 0;
 
-             if(student_duration >= (lecture_duration * threshold_percent / 100)){
+             if(student_duration >=  threshold_duration){
                   ispresent = 1;
              }
 
              //inserting into attends
-              text = 'INSERT INTO attends (student_id,lecture_id,ispresent) VALUES ($1,$2,$3)';
-              values = [student_id,lecture_id,ispresent];
+              text = 'INSERT INTO attends (student_id,lecture_id,ispresent,duration) VALUES ($1,$2,$3,$4)';
+              values = [student_id,lecture_id,ispresent,student_duration];
 
               try {
                const client = await pool.connect();
