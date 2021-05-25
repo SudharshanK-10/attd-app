@@ -314,13 +314,14 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           //populate the student table and belongsto table
           var text1 = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
           var text2 = 'INSERT INTO belongsto (student_id,class_id) VALUES ($2,$1) RETURNING *';
-          var text3 = 'SELECT * FROM student WHERE email=$7';
+          var text3 = 'SELECT * FROM student WHERE email=$1';
 
           try{
                const client = await pool.connect();
                var values2 = [class_id];
-
-               const student_exists = await client.query(text3,values);
+               var values3 = [values[6]];
+               console.log(values3);
+               const student_exists = await client.query(text3,values3);
                client.release();
           }
           catch (err) {
