@@ -316,6 +316,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           var text2 = 'INSERT INTO belongsto (student_id,class_id) VALUES ($2,$1) RETURNING *';
           var text3 = 'SELECT * FROM student WHERE email=$7';
 
+          /*
           try{
                const client = await pool.connect();
                var values2 = [class_id];
@@ -328,6 +329,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
             console.error(err);
             res.send("Error " + err);
           }
+          */
      }
      }
      return res.render('student-detail-success');
