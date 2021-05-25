@@ -331,7 +331,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                }
                //student already exists
                else {
-                    values2.push(student_exits[0].student_id);
+                    values2.push(student_exists[0].student_id);
                }
 
                //insert into belongs to table
