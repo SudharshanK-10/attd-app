@@ -324,15 +324,13 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                const student_exists = result1.rows;
 
                //check if student doesn't exists
-               if(typeof student_exists[0].student_id == 'undefined'){
+               if(typeof student_exists[0] == 'undefined'){
                     const result2 = await client.query(text1,values);
                     const faculty = result2.rows;
-                    console.log(faculty);
                     values2.push(faculty[0].student_id);
                }
                //student already exists
                else {
-                    console.log(student_exists);
                     values2.push(student_exists[0].student_id);
                }
 
