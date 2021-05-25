@@ -311,7 +311,6 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           });
           console.log('-------------------');
 
-          console.log(values);
           //populate the student table and belongsto table
           var text1 = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
           var text2 = 'INSERT INTO belongsto (student_id,class_id) VALUES ($2,$1) RETURNING *';
@@ -328,10 +327,12 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                if(typeof student_exists[0].student_id == 'undefined'){
                     const result2 = await client.query(text1,values);
                     const faculty = result2.rows;
+                    console.log(faculty);
                     values2.push(faculty[0].student_id);
                }
                //student already exists
                else {
+                    console.log(student_exists);
                     values2.push(student_exists[0].student_id);
                }
 
