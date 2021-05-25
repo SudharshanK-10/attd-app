@@ -318,7 +318,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
 
           try{
                const client = await pool.connect();
-               var values2[class_id];
+               var values2 = [class_id];
 
                const result1 = await client.query(text3,values);
                const student_exists = result1.rows;
