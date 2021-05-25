@@ -314,24 +314,35 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           //populate the student table and belongsto table
           var text1 = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
           var text2 = 'INSERT INTO belongsto (student_id,class_id) VALUES ($2,$1) RETURNING *';
+          ver text3 = 'SELECT * FROM student WHERE email=$7';
 
-          try {
-           const client = await pool.connect();
-           //inserting into student table
-           const result1 = await client.query(text1,values);
-           var values2 = [class_id];
-           const faculty = result1.rows;
-           values2.push(faculty[0].student_id);
+          try{
+               const client await pool.connect();
+               var values2[class_id];
 
-           //inserting into belongsto table
-           const result2 = await client.query(text2,values2);
-           console.log("success!");
-           client.release();
-         } catch (err) {
+               const result1 = await client.query(text3,values);
+               const student_exists = result1.rows;
+
+               //check if student doesn't exists
+               if(student_exists == null){
+                    const result2 = await client.query(text1,values);
+                    const faculty = result2.rows;
+                    values2.push(faculty[0].student_id);
+               }
+               //student already exists
+               else {
+                    values2.push(student_exits[0].student_id);
+               }
+
+               //insert into belongs to table
+              const result2 = await client.query(text2,values2);
+              console.log("success!");
+              client.release();
+          }
+          catch (err) {
            console.error(err);
            res.send("Error " + err);
       }
-
      }
      }
      return res.render('student-detail-success');
