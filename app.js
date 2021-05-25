@@ -320,29 +320,14 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                const client = await pool.connect();
                var values2 = [class_id];
 
-               const result1 = await client.query(text3,values);
-               const student_exists = result1.rows;
-
-               //check if student doesn't exists
-               if(typeof student_exists[0] == 'undefined'){
-                    const result2 = await client.query(text1,values);
-                    const faculty = result2.rows;
-                    values2.push(faculty[0].student_id);
-               }
-               //student already exists
-               else {
-                    values2.push(student_exists[0].student_id);
-               }
-
-               //insert into belongs to table
-              const joined = await client.query(text2,values2);
-              console.log("success!");
-              client.release();
+               const student_exists = await client.query(text3,values);
+               console.log(student_exists[0]);
+               client.release();
           }
           catch (err) {
-           console.error(err);
-           res.send("Error " + err);
-      }
+            console.error(err);
+            res.send("Error " + err);
+          }
      }
      }
      return res.render('student-detail-success');
