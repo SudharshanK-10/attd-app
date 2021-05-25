@@ -320,8 +320,23 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                const client = await pool.connect();
                var values2 = [class_id];
                var values3 = [values[6]];
-               console.log(values3);
-               const student_exists = await client.query(text3,values3);
+
+               const result1 = await client.query(text3,values3);
+               const student_exists = result1.rows;
+
+               //check if student student exists
+               if(typeof student_exists[0] == 'undefined'){
+                    const result2 = await client.query(text1,values);
+                    const faculty = result2.rows;
+                    values2.push(faculty[0].student_id);
+               }
+               //student doesn't exists
+               else {
+                    values2.push(student_exists[0].student_id);
+               }
+
+               //insert into belongsto table
+               const result3 = await client.query(text2,values2);
                client.release();
           }
           catch (err) {
