@@ -5,7 +5,13 @@
                <%= (given[0].class_id) ? given[0].class_id : '' %>
           </b>
           <br><br>
-          <a href="/logged/new_class_created/new_student">New set of students?</a>
+          <p>Being redirected to student info page....</p>
+          <script>
+          setTimeout(function () {
+          // after 5 seconds
+          window.location = "/new-student";
+     }, 5000)
+     </script>
      </body>
      <style>
 		body{
@@ -19,6 +25,9 @@
 	          text-align:center;
 			padding : 25px 25px;
 		}
+          p {
+               font-size : 20px;
+          }
 
 	</style>
 </html>
