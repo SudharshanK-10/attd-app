@@ -311,6 +311,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
           });
           console.log('-------------------');
 
+          console.log(values);
           //populate the student table and belongsto table
           var text1 = 'INSERT INTO student (rollno,name,dob,major,year,college,email) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *';
           var text2 = 'INSERT INTO belongsto (student_id,class_id) VALUES ($2,$1) RETURNING *';
@@ -323,7 +324,6 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                const result1 = await client.query(text3,values);
                const student_exists = result1.rows;
 
-               console.log(student_exists);
                //check if student doesn't exists
                if(typeof student_exists[0].student_id == 'undefined'){
                     const result2 = await client.query(text1,values);
@@ -336,7 +336,7 @@ app.post('/logged/new_class_created/new_student/information',async(req,res) => {
                }
 
                //insert into belongs to table
-              const result2 = await client.query(text2,values2);
+              const joined = await client.query(text2,values2);
               console.log("success!");
               client.release();
           }
