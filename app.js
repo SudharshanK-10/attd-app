@@ -433,15 +433,48 @@ app.post('/logged/uploaded_csv',async(req,res) => {
                 res.send("Error " + err);
               }
 
-             //calculate ispresent
+             //calculate student duration
              var student_duration = obj["Duration"];
-             student_duration = student_duration.substring(0,student_duration.indexOf("m"));
-             var ispresent = 0;
+             var s = student_duration;
+             var ok=1;
 
+             if(s.length <= 3 && s.slice(-1) == "s"){
+                    student_duration = "0";
+                    ok=0;
+             }
+             if(ok){
+                  student_duration = student_duration.substring(0,student_duration.indexOf("m"));
+             }
+
+             //check if student already exists in attends
+             text = 'SELECT * FROM attends WHERE student_id=$1';
+             values = [student_id];
+
+             var already_exists;
+             try {
+              const client = await pool.connect();
+              const ans = await client.query(text,values);
+              const faculty = ans.rows;
+              already_exists = faculty;
+              client.release();
+           } catch (err) {
+              console.error(err);
+              res.send("Error " + err);
+           }
+
+              ok=0;
+             //student already exists
+             if(typeof already_exists[0].duration != 'undefined'){
+                  student_duration += already_exists[0].duration;
+                  ok=1;
+             }
+
+             var ispresent = 0;
              if(student_duration >= (lecture_duration * threshold_percent / 100)){
                   ispresent = 1;
              }
 
+             if(!ok) {
              //inserting into attends
               text = 'INSERT INTO attends (student_id,lecture_id,ispresent,duration) VALUES ($1,$2,$3,$4)';
               values = [student_id,lecture_id,ispresent,student_duration];
@@ -455,6 +488,21 @@ app.post('/logged/uploaded_csv',async(req,res) => {
                console.error(err);
                res.send("Error " + err);
             }
+       }
+          else {
+               //update the record in ATTENDS
+               text = 'UPDATE attends SET student_duration=$1, ispresent=$2 WHERE student_id=$3';
+               values = [student_duration,ispresent,student_id];
+               try {
+                const client = await pool.connect();
+                const ans = await client.query(text,values);
+                console.log(student_id+' : success!')
+                client.release();
+             } catch (err) {
+                console.error(err);
+                res.send("Error " + err);
+             }
+          }
 
       }
      }
