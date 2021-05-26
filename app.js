@@ -322,7 +322,7 @@ app.post('/dashboard/new_class_created/new_student/information', async (req, res
         result.push(obj);
     }
 
-    
+
     for (const obj of result) {
         var values = [];
         if (typeof obj["email"] != 'undefined') {
@@ -464,8 +464,6 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
         // res.send("Student already exists");
     }
 
-
-    // TODO: TRANSACTION BLOCK
     //insert into attends table
     for (const obj of result) {
         if (obj["Role"] == "Attendee") {
