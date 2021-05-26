@@ -550,7 +550,7 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
        }
           else {
                //update the record in ATTENDS
-               text = 'UPDATE attends SET student_duration=$1, ispresent=$2 WHERE student_id=$3';
+               text = 'UPDATE attends SET duration=$1, ispresent=$2 WHERE student_id=$3';
                values = [student_duration,ispresent,student_id];
                try {
                 const client = await pool.connect();
@@ -622,7 +622,7 @@ app.post('/dashboard/classes/class-details', async (req, res) => {
 app.post('/dashboard/classes/class-details/student', async (req, res) => {
     const student_id = req.body.student_id;
 
-    // FAC_ID used to ensure users cannot view other users' class records
+    // faculty_ID used to ensure users cannot view other users' class records
     const studentHistoryQuery = 'SELECT ROLLNO, NAME, ISPRESENT, START_TIME \
         FROM STUDENT_ATTENDANCE \
         WHERE STUDENT_ID=$1 \
