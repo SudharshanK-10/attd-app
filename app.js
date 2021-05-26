@@ -498,15 +498,14 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
              }
 
              //check if student already exists in attends
-             text = 'SELECT * FROM attends WHERE student_id=$1';
-             values = [student_id];
+             text = 'SELECT * FROM attends WHERE student_id=$1 AND lecture_id=$2';
+             values = [student_id,lecture_id];
 
              var already_exists;
              try {
               const client = await pool.connect();
               const ans = await client.query(text,values);
-              const faculty = ans.rows;
-              already_exists = faculty;
+              already_exists = ans.rows;
               client.release();
            } catch (err) {
               console.error(err);
@@ -516,7 +515,7 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
               ok=0;
              //student already exists
              if(typeof already_exists[0] != 'undefined'){
-                  student_duration += already_exists[0].duration;
+                  student_duration = +student_duration + +already_exists[0].duration;
                   ok=1;
              }
 
