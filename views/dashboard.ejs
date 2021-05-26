@@ -8,17 +8,21 @@
 				<%= (given[0].faculty_id) ? given[0].faculty_id : '' %>
 			</b>
 			<br><br>
-			<form method="post" action="logged/new_class">
+			<form method="post" action="dashboard/new_class">
        			<input type="submit" value="New class"/>
 			</form>
 
-			<form method="post" action="logged/upload_csv">
+			<!-- <form method="post" action="dashboard/upload_csv">
                         <input type="submit" value="Upload CSV"/>
 			</form>
 
-			<form method="post" action="logged/get_summary">
+			<form method="post" action="dashboard/get_summary">
                         <input type="submit" value="Get summary"/>
-			</form>
+			</form> -->
+
+			<form action="dashboard/classes" method="post">
+                <input type="submit" value="View Classes" />
+            </form>
 	</body>
 	<style>
 		body{
