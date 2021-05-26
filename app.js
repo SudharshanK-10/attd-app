@@ -322,7 +322,7 @@ app.post('/dashboard/new_class_created/new_student/information', async (req, res
         result.push(obj);
     }
 
-    // TODO: TRANSACTION BLOCK
+    
     for (const obj of result) {
         var values = [];
         if (typeof obj["email"] != 'undefined') {
@@ -517,7 +517,7 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
 
               ok=0;
              //student already exists
-             if(typeof already_exists[0].duration != 'undefined'){
+             if(typeof already_exists[0] != 'undefined'){
                   student_duration += already_exists[0].duration;
                   ok=1;
              }
