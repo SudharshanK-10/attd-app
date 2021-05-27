@@ -1,16 +1,17 @@
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
 const path = require('path');
-const port = process.env.PORT || 3000;
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
-const saltrounds = 10;
 const fileUpload = require('express-fileupload');
 const csvtojson = require('csvtojson');
 const session = require('express-session');
 const { ESRCH } = require('constants');
 
+const app = express();
+const port = process.env.PORT || 3000;
+const saltrounds = 10;
+
+// const bodyParser = require('body-parser');
 //const cors = require('cors');
 //const multer = require('multer');
 //const helpers = require('./helpers'); //identify the csv files
@@ -31,8 +32,8 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(morgan('dev'));
 //app.use(cors());
 //app.use(express.static(__dirname + '/dashboard'));
@@ -42,7 +43,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 */
 
 app.set('view engine', 'ejs');
-
 app.listen(port, () => console.log(`listening on port ${port}!`));
 
 const pool = new Pool({
@@ -51,7 +51,6 @@ const pool = new Pool({
         rejectUnauthorized: false
     }
 });
-
 
 //displaying the database
 app.get('/FACULTY', async (req, res) => {
@@ -92,19 +91,6 @@ app.get('/CLASS', async (req, res) => {
         res.send("Error " + err);
     }
 });
-
-// app.get('/CLASS', async (req, res) => {
-//     try {
-//         const client = await pool.connect();
-//         const result = await client.query('SELECT * FROM class');
-//         const faculty = { 'faculty': (result) ? result.rows : null };
-//         res.render('class', faculty);
-//         client.release();
-//     } catch (err) {
-//         console.error(err);
-//         res.send("Error " + err);
-//     }
-// });
 
 app.get('/LECTURE', async (req, res) => {
     try {
@@ -682,4 +668,49 @@ app.post('/dashboard/classes/class-details/lectures', async (req, res) => {
         console.error(err);
         res.send('ERROR: ' + err);
     }
-})
+});
+
+app.post('/dashboard/classes/class-details/lectures/lecture-details', 
+    async (req, res) => {
+        const lecture_id = req.body.lecture_id;
+        const faculty_id = req.session.faculty_id;
+        const class_id   = req.session.class_id;
+
+        const lectureDetailQuery = 'SELECT ROLLNO, NAME, ISPRESENT \
+            FROM STUDENT_ATTENDANCE \
+            WHERE LECTURE_ID=$1 \
+            AND CLASS_ID=$2 \
+            AND FACULTY_ID=$3';
+
+            
+            const values = [lecture_id, class_id, faculty_id];
+            
+            try {
+                const client = await pool.connect();
+                const result = await client.query(lectureDetailQuery, values);
+                
+                if(result.rows.length == 0) {
+                    res.send('Lecture does not exist!');
+                }
+                else {
+                    const lectureDate = 'SELECT START_TIME \
+                        FROM LECTURE \
+                        WHERE LECTURE_ID=$1';
+                    const lec_id = [lecture_id];
+                    const start_time = await client.query(lectureDate, lec_id);
+
+
+                    res.render('lecture-details', {
+                    lecture_details: result.rows,
+                    date: start_time.rows
+                })
+
+                client.release();
+            }
+
+        }
+        catch (err) {
+            res.send(err);
+            console.log(err);
+        }
+    })
