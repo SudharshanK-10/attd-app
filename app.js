@@ -642,12 +642,12 @@ app.post('/dashboard/classes/class-details/lectures', async (req, res) => {
     const class_id = req.session.class_id;
     const faculty_id = req.session.faculty_id;
 
-    const getLectureQuery = 'SELECT L.LECTURE_ID, L.DURATION, L.START_TIME, \
+    const getLectureQuery = 'SELECT L.LECTURE_ID, L.DURATION, L.START_TIME, L.THRESHOLD_PERCENT, \
         COUNT(A.ISPRESENT) FILTER(WHERE A.ISPRESENT=TRUE) AS ATTENDANCE \
         FROM CLASS_LECTURES L \
         INNER JOIN ATTENDS A ON L.LECTURE_ID=A.LECTURE_ID \
         WHERE L.CLASS_ID=$1 AND L.FACULTY_ID=$2 \
-        GROUP BY L.LECTURE_ID, L.DURATION, L.START_TIME';
+        GROUP BY L.LECTURE_ID, L.DURATION, L.START_TIME, L.THRESHOLD_PERCENT';
 
     const values = [class_id, faculty_id];
 
@@ -670,11 +670,11 @@ app.post('/dashboard/classes/class-details/lectures', async (req, res) => {
     }
 });
 
-app.post('/dashboard/classes/class-details/lectures/lecture-details', 
+app.post('/dashboard/classes/class-details/lectures/lecture-details',
     async (req, res) => {
         const lecture_id = req.body.lecture_id;
         const faculty_id = req.session.faculty_id;
-        const class_id   = req.session.class_id;
+        const class_id = req.session.class_id;
 
         const lectureDetailQuery = 'SELECT ROLLNO, NAME, ISPRESENT \
             FROM STUDENT_ATTENDANCE \
@@ -682,25 +682,25 @@ app.post('/dashboard/classes/class-details/lectures/lecture-details',
             AND CLASS_ID=$2 \
             AND FACULTY_ID=$3';
 
-            
-            const values = [lecture_id, class_id, faculty_id];
-            
-            try {
-                const client = await pool.connect();
-                const result = await client.query(lectureDetailQuery, values);
-                
-                if(result.rows.length == 0) {
-                    res.send('Lecture does not exist!');
-                }
-                else {
-                    const lectureDate = 'SELECT START_TIME \
+
+        const values = [lecture_id, class_id, faculty_id];
+
+        try {
+            const client = await pool.connect();
+            const result = await client.query(lectureDetailQuery, values);
+
+            if (result.rows.length == 0) {
+                res.send('Lecture does not exist!');
+            }
+            else {
+                const lectureDate = 'SELECT START_TIME \
                         FROM LECTURE \
                         WHERE LECTURE_ID=$1';
-                    const lec_id = [lecture_id];
-                    const start_time = await client.query(lectureDate, lec_id);
+                const lec_id = [lecture_id];
+                const start_time = await client.query(lectureDate, lec_id);
 
 
-                    res.render('lecture-details', {
+                res.render('lecture-details', {
                     lecture_details: result.rows,
                     date: start_time.rows
                 })
@@ -713,4 +713,49 @@ app.post('/dashboard/classes/class-details/lectures/lecture-details',
             res.send(err);
             console.log(err);
         }
-    })
+    }
+);
+
+app.post('/dashboard/classes/class-details/lectures/edit-lecture',
+    async (req, res) => {
+        const lecture_id = req.body.lecture_id;
+        const threshold = req.body.threshold;
+
+        const faculty_id = req.session.faculty_id;
+        const class_id = req.session.class_id;
+
+        const lecIDQuery = 'SELECT LECTURE_ID \
+        FROM CLASS_LECTURES \
+        WHERE LECTURE_ID=$1 \
+        AND CLASS_ID=$2 \
+        AND FACULTY_ID=$3';
+        const lec_id = [lecture_id, class_id, faculty_id];
+
+        const query = 'UPDATE LECTURE \
+            SET THRESHOLD_PERCENT=$1 \
+            WHERE LECTURE_ID=$2 \
+            RETURNING *';
+
+        try {
+
+            const client = await pool.connect();
+            const check = await client.query(lecIDQuery, lec_id);
+
+            if (check.rows.length != 0) {
+
+                const values = [threshold, check.rows[0].lecture_id];
+                client.query(query, values, (err, result) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                    else {
+                        res.send('updated, go back and reload to view changes');
+                    }
+                });
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+);

@@ -7,10 +7,20 @@
         <form action="/dashboard/classes/class-details/lectures/lecture-details" method="post">
             <label for="lecture_id">Enter Lecture_ID: </label>
             <input type="number" name="lecture_id" id="lecture_id" />
-            <br><br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="View lecture">
         </form>
+
         <br><br>
+
+        <form action="/dashboard/classes/class-details/lectures/edit-lecture" method="post">
+            <label for="lecture_id">Enter Lecture_ID: </label>
+            <input type="number" name="lecture_id" id="lecture_id" />
+            <br>
+            <label for="threshold">Enter threshold percent: </label>
+            <input type="number" name="threshold" id="threshold" />
+            <br>
+            <input type="submit" value="Edit lecture">
+        </form>
 
         <table class="lecture-list">
             <thead>
@@ -18,6 +28,7 @@
                     <th>LECTURE ID</th>
                     <th>LECTURE DURATION</th>
                     <th>LECTURE START-TIME</th>
+                    <th>ATTENDANCE THRESHOLD</th>
                     <th>ATTENDANCE</th>
                 </tr>
             </thead>
@@ -28,6 +39,7 @@
                         <td><%= lectures[i].lecture_id %></td>
                         <td><%= lectures[i].duration %></td>
                         <td><%= lectures[i].start_time.toLocaleDateString() %></td>
+                        <td><%= lectures[i].threshold_percent %></td>
                         <td><%= lectures[i].attendance %></td>
                     </tr>
                 <% } %>
