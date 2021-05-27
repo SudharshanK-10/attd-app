@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        
+
+        <!-- Temp QDS. Fix this in front end so that user just has to click a student's name -->
+        <!-- <form action="/dashboard/classes/class-details/student-details" method="post">
+            <label for="student_id">Enter Student_ID: </label>
+            <input type="number" name="student_id" id="student_id" />
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+        <br><br>
+
+        <form action="/dashboard/classes/class-details/lectures" method="post">
+            <input type="submit" value="View Lectures">
+        </form> -->
+
+        <table class="lecture-list">
+            <thead>
+                <tr>
+                    <th>LECTURE ID</th>
+                    <th>LECTURE DURATION</th>
+                    <th>LECTURE START-TIME</th>
+                    <th>ATTENDANCE</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < lectures.length; ++i) {%>
+                    <tr>
+                        <td><%= lectures[i].lecture_id %></td>
+                        <td><%= lectures[i].duration %></td>
+                        <td><%= lectures[i].start_time.toLocaleDateString() %></td>
+                        <td><%= lectures[i].attendance %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </body>
+</html>

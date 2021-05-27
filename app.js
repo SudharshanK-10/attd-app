@@ -482,85 +482,85 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
             } catch (err) {
                 console.error(err);
                 res.send("Error " + err);
-              }
-
-             //calculate student duration
-             var student_duration = obj["Duration"];
-             var s = student_duration;
-             var ok=1;
-
-             if(s.length <= 3 && s.slice(-1) == "s"){
-                    student_duration = "0";
-                    ok=0;
-             }
-             if(ok){
-                  student_duration = student_duration.substring(0,student_duration.indexOf("m"));
-             }
-
-             //check if student already exists in attends
-             text = 'SELECT * FROM attends WHERE student_id=$1 AND lecture_id=$2';
-             values = [student_id,lecture_id];
-
-             var already_exists;
-             try {
-              const client = await pool.connect();
-              const ans = await client.query(text,values);
-              already_exists = ans.rows;
-              client.release();
-           } catch (err) {
-              console.error(err);
-              res.send("Error " + err);
-           }
-
-              ok=0;
-             //student already exists
-             if(typeof already_exists[0] != 'undefined'){
-                  student_duration = +student_duration + +already_exists[0].duration;
-                  ok=1;
-             }
-
-             var ispresent = 0;
-             if(student_duration >= (lecture_duration * threshold_percent / 100)){
-                  ispresent = 1;
-             }
-
-             if(!ok) {
-             //inserting into attends
-              text = 'INSERT INTO attends (student_id,lecture_id,ispresent,duration) VALUES ($1,$2,$3,$4)';
-              values = [student_id,lecture_id,ispresent,student_duration];
-
-              try {
-               const client = await pool.connect();
-               const ans = await client.query(text,values);
-               console.log(student_id+' : success!')
-               client.release();
-            } catch (err) {
-                var errObj = {
-                    student_id: student_id,
-                    lecture_id: lecture_id,
-                    ispresent: ispresent,
-                    student_duration: student_duration
-                };
-
-                console.error(errObj);
-                console.error(err);
-                // res.send("Error " + err);
             }
-       }
-          else {
-               //update the record in ATTENDS
-               text = 'UPDATE attends SET duration=$1, ispresent=$2 WHERE student_id=$3';
-               values = [student_duration,ispresent,student_id];
-               try {
+
+            //calculate student duration
+            var student_duration = obj["Duration"];
+            var s = student_duration;
+            var ok = 1;
+
+            if (s.length <= 3 && s.slice(-1) == "s") {
+                student_duration = "0";
+                ok = 0;
+            }
+            if (ok) {
+                student_duration = student_duration.substring(0, student_duration.indexOf("m"));
+            }
+
+            //check if student already exists in attends
+            text = 'SELECT * FROM attends WHERE student_id=$1 AND lecture_id=$2';
+            values = [student_id, lecture_id];
+
+            var already_exists;
+            try {
                 const client = await pool.connect();
-                const ans = await client.query(text,values);
-                console.log(student_id+' : success!')
+                const ans = await client.query(text, values);
+                already_exists = ans.rows;
                 client.release();
-             } catch (err) {
+            } catch (err) {
                 console.error(err);
                 res.send("Error " + err);
-             }
-          }
+            }
+
+            ok = 0;
+            //student already exists
+            if (typeof already_exists[0] != 'undefined') {
+                student_duration = +student_duration + +already_exists[0].duration;
+                ok = 1;
+            }
+
+            var ispresent = 0;
+            if (student_duration >= (lecture_duration * threshold_percent / 100)) {
+                ispresent = 1;
+            }
+
+            if (!ok) {
+                //inserting into attends
+                text = 'INSERT INTO attends (student_id,lecture_id,ispresent,duration) VALUES ($1,$2,$3,$4)';
+                values = [student_id, lecture_id, ispresent, student_duration];
+
+                try {
+                    const client = await pool.connect();
+                    const ans = await client.query(text, values);
+                    console.log(student_id + ' : success!')
+                    client.release();
+                } catch (err) {
+                    var errObj = {
+                        student_id: student_id,
+                        lecture_id: lecture_id,
+                        ispresent: ispresent,
+                        student_duration: student_duration
+                    };
+
+                    console.error(errObj);
+                    console.error(err);
+                    // res.send("Error " + err);
+                }
+            }
+            else {
+                //update the record in ATTENDS
+                text = 'UPDATE attends SET duration=$1, ispresent=$2 WHERE student_id=$3';
+                values = [student_duration, ispresent, student_id];
+                try {
+                    const client = await pool.connect();
+                    const ans = await client.query(text, values);
+                    console.log(student_id + ' : success!')
+                    client.release();
+                } catch (err) {
+                    console.error(err);
+                    res.send("Error " + err);
+                }
+            }
 
         }
     }
@@ -602,7 +602,7 @@ app.post('/dashboard/classes/class-details', async (req, res) => {
         }
 
         // Disp results
-        res.render('students', {
+        res.render('student-list', {
             title: 'Student list',
             students: result.rows,
             totalLectures: totalLectures.rows
@@ -618,7 +618,7 @@ app.post('/dashboard/classes/class-details', async (req, res) => {
 });
 
 // Display the attendance history for a particular student
-app.post('/dashboard/classes/class-details/student', async (req, res) => {
+app.post('/dashboard/classes/class-details/student-details', async (req, res) => {
     const student_id = req.body.student_id;
 
     // faculty_ID used to ensure users cannot view other users' class records
@@ -651,3 +651,35 @@ app.post('/dashboard/classes/class-details/student', async (req, res) => {
         res.send('ERROR: ' + err);
     }
 });
+
+app.post('/dashboard/classes/class-details/lectures', async (req, res) => {
+    const class_id = req.session.class_id;
+    const faculty_id = req.session.faculty_id;
+
+    const getLectureQuery = 'SELECT L.LECTURE_ID, L.DURATION, L.START_TIME, \
+        COUNT(A.ISPRESENT) FILTER(WHERE A.ISPRESENT=TRUE) AS ATTENDANCE \
+        FROM CLASS_LECTURES L \
+        INNER JOIN ATTENDS A ON L.LECTURE_ID=A.LECTURE_ID \
+        WHERE L.CLASS_ID=$1 AND L.FACULTY_ID=$2 \
+        GROUP BY L.LECTURE_ID, L.DURATION, L.START_TIME';
+
+    const values = [class_id, faculty_id];
+
+    try {
+        const client = await pool.connect();
+        const result = await client.query(getLectureQuery, values);
+
+        if (result.rows.length == 0) {
+            res.send('No lectures conducted in this class');
+        }
+        else {
+            res.render('lecture-list', { lectures: result.rows });
+        }
+
+        client.release();
+    }
+    catch (err) {
+        console.error(err);
+        res.send('ERROR: ' + err);
+    }
+})
