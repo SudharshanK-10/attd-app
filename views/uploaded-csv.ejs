@@ -1,12 +1,54 @@
 <html>
      <title>CSV upload success</title>
      <body>
-          <div class="frame">
-               Your Lecture id is <b><%= lecture_id %></b><br><br>
+          <div class="box">
+               <div class="bull">Your Lecture id is <b><%= lecture_id %></b></div><br><br>
                <b>CSV successfully uploaded!</b>
+               <br><br>
+               <p>Redirecting to Class Dashboard...</p>
+               <script>
+               setTimeout(function () {
+                    // after 5 seconds
+                    window.history.go(-2);
+               }, 5000)
+               </script>
+               <div class="loader"></div>
           </div>
      </body>
      <style>
+     .loader {
+          margin-left : 50%;
+          border: 5px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 5px solid #3498db;
+          width: 25px;
+          height: 25px;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+          }
+
+     /* Safari */
+     @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+          }
+
+     @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+     }
+          body{
+               background:linear-gradient(#07F5F5,white);
+          }
+          .frame{
+               border : 2px solid black;
+               position:absolute;
+               top:50%;
+               left:50%;
+               transform: translate(-50%,-50%);
+               text-align:center;
+               padding : 20px 20px;
+          }
           body{
                background:linear-gradient(#07F5F5,white);
           }
@@ -19,6 +61,12 @@
                transform: translate(-50%,-50%);
                text-align:center;
                padding : 20px 20px;
+          }
+          b,.bull{
+               font-size : 25px;
+          }
+          p{
+               font-size : 20px;
           }
 
      </style>
