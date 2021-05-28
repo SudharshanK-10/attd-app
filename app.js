@@ -453,12 +453,12 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
         //get all the students who belongs to this class
          text = 'SELECT * FROM belongsto WHERE class_id=$1';
          values = [class_id];
-         var student_list;
+         var student_before_update_list;
 
           try{
                const client = await pool.connect();
-               const result = await pool.quert(text,values);
-               student_list = result.rows;
+               const result = await pool.query(text,values);
+               student_before_update_list = result.rows;
                client.release();
           }
           catch (err) {
@@ -470,16 +470,15 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
          var ispresent = 0;
          var student_duration = 0;
 
-         for(var i=0;i<student_list.length;i++) {
-              var student_id = student_list[i].student_id;
+         for(var i=0;i<student_before_update_list.length;i++) {
+              var student_id = student_before_update_list[i].student_id;
 
               text = 'INSERT INTO attends (student_id,lecture_id,ispresent,duration) VALUES ($1,$2,$3,$4)';
               values = [student_id,lecture_id,ispresent,student_duration];
 
               try{
                   const client = await pool.connect();
-                  const result = await pool.quert(text,values);
-                  student_list = result.rows;
+                  const result = await pool.query(text,values);
                   client.release();
              }
              catch (err) {
@@ -492,8 +491,8 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
         if (obj["Role"] == "Attendee") {
 
             //get student_id using Email
-            var text = 'SELECT * FROM student WHERE email=$1';
-            var values = [obj["Email"]];
+            text = 'SELECT * FROM student WHERE email=$1';
+            values = [obj["Email"]];
             console.log(values);
 
             try {
@@ -535,58 +534,29 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
                 res.send("Error " + err);
             }
 
-            ok = 0;
             //student already exists
             if (typeof already_exists[0] != 'undefined') {
                 student_duration = +student_duration + +already_exists[0].duration;
-                ok = 1;
             }
 
             ispresent = 0;
             if (student_duration >= (lecture_duration * threshold_percent / 100)) {
                 ispresent = 1;
-            }
-
-            if (!ok) {
-                //inserting into attends
-                text = 'INSERT INTO attends (student_id,lecture_id,ispresent,duration) VALUES ($1,$2,$3,$4)';
-                values = [student_id, lecture_id, ispresent, student_duration];
-
-                try {
-                    const client = await pool.connect();
-                    const ans = await client.query(text, values);
-                    console.log(student_id + ' : success!')
-                    client.release();
-                } catch (err) {
-                    var errObj = {
-                        student_id: student_id,
-                        lecture_id: lecture_id,
-                        ispresent: ispresent,
-                        student_duration: student_duration
-                    };
-
-                    console.error(errObj);
-                    console.error(err);
-                    // res.send("Error " + err);
-                }
-            }
-            else {
-                //update the record in ATTENDS
-                text = 'UPDATE attends SET duration=$1, ispresent=$2 WHERE student_id=$3';
-                values = [student_duration, ispresent, student_id];
-                try {
-                    const client = await pool.connect();
-                    const ans = await client.query(text, values);
-                    console.log(student_id + ' : success!')
-                    client.release();
-                } catch (err) {
-                    console.error(err);
-                    res.send("Error " + err);
-                }
-            }
-
-        }
-    }
+           }
+          //update the record in ATTENDS
+           text = 'UPDATE attends SET duration=$1, ispresent=$2 WHERE student_id=$3';
+           values = [student_duration, ispresent, student_id];
+            try {
+               const client = await pool.connect();
+               const ans = await client.query(text, values);
+               console.log(student_id + ' : success!')
+               client.release();
+           } catch (err) {
+               console.error(err);
+               res.send("Error " + err);
+           }
+   }
+ }
     return res.render('uploaded-csv', { lecture_id: lecture_id });
 });
 
