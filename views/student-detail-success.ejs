@@ -3,16 +3,16 @@
      <body>
           <div class="frame">
                <b>Student details successfully inserted!</b>
+               <br><br>
+               <p>Redirecting to Dashboard...</p>
+               <script>
+               setTimeout(function () {
+                    // after 5 seconds
+                    window.history.go(-4);
+               }, 5000)
+               </script>
+               <div class="loader"></div>
           </div>
-          <br><br>
-          <p>Redirecting to Dashboard...</p>
-          <script>
-          setTimeout(function () {
-               // after 5 seconds
-               window.location = "/dashboard";
-          }, 5000)
-          </script>
-          <div class="loader"></div>
      </body>
      <style>
      .loader {
