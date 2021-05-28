@@ -450,7 +450,44 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
         // res.send("Student already exists");
     }
 
-    //insert into attends table
+        //get all the students who belongs to this class
+         text = 'SELECT * FROM belongsto WHERE class_id=$1';
+         values = [class_id];
+         var student_list;
+
+          try{
+               const client = await pool.connect();
+               const result = await pool.quert(text,values);
+               student_list = result.rows;
+               client.release();
+          }
+          catch (err) {
+             res.send('ERROR: ' + err);
+             console.error(err);
+         }
+
+         //populate the attends table with the students from the particular class
+         var ispresent = 0;
+         var student_duration = 0;
+
+         for(var i=0;i<student_list.length;i++) {
+              var student_id = student_list[i].student_id;
+
+              text = 'INSERT INTO attends (student_id,lecture_id,ispresent,duration) VALUES ($1,$2,$3,$4)';
+              values = [student_id,lecture_id,ispresent,student_duration];
+
+              try{
+                  const client = await pool.connect();
+                  const result = await pool.quert(text,values);
+                  student_list = result.rows;
+                  client.release();
+             }
+             catch (err) {
+                res.send('ERROR: ' + err);
+                console.error(err);
+            }
+    }
+      //update the attends table
     for (const obj of result) {
         if (obj["Role"] == "Attendee") {
 
@@ -471,7 +508,7 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
             }
 
             //calculate student duration
-            var student_duration = obj["Duration"];
+            student_duration = obj["Duration"];
             var s = student_duration;
             var ok = 1;
 
@@ -505,7 +542,7 @@ app.post('/dashboard/classes/uploaded_csv', async (req, res) => {
                 ok = 1;
             }
 
-            var ispresent = 0;
+            ispresent = 0;
             if (student_duration >= (lecture_duration * threshold_percent / 100)) {
                 ispresent = 1;
             }
