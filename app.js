@@ -42,6 +42,33 @@ app.use(session({
 }));
 */
 
+// Heroku connection
+// const db = knex({
+  // client: "pg",
+   //connection: {
+     //connectionString: process.env.DATABASE_URL,
+     //ssl: {
+       //rejectUnauthorized: false,
+     //},
+   //},
+ //});
+ //encrypting user password
+ //app.post(
+  //"/register",
+  //register.handleRegister(db, bcrypt, SALT_ROUNDS, validator)
+//);
+
+//Storing the hashed password
+const hash = await bcrypt.hash(password, SALT_ROUNDS);
+
+      const faculty = await db("faculty")
+        .insert({ name, email, college, password: hash })
+        .returning(["faculty_id", "name", "email", "college"]);
+
+     //Validating user password during login
+    const authorized = await bcrypt.compare(password, faculty[0].password);
+    if (!authorized) return res.status(401).json(error);
+
 app.set('view engine', 'ejs');
 app.listen(port, () => console.log(`listening on port ${port}!`));
 

@@ -26,6 +26,10 @@
      	  <a href='/login.html'>Login</a>
      </div>
      </div>
+     <div class="tooltip">
+          Developed By : Sudharshan
+          <span class="tooltiptext">Email : sudharshan10052002@gmail.com</span>
+     </div>
 <style>
      body{
           background:linear-gradient(#07F5F5,white);
@@ -49,7 +53,39 @@
      b{
           font-size:30px;
      }
+     .developer{
+          position: absolute;
+          top: 95%;
+          right: 0%;
+          transform: translate(-60%,-60%);
+     }
 
+     .tooltip {
+          position: absolute;
+          top: 95%;
+          right: 0%;
+          transform: translate(-60%,-60%);
+     }
+
+     .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 300px;
+          background-color: black;
+          color: #fff;
+          text-align: center;
+          border-radius: 6px;
+          padding: 10px 0;
+
+          /* Position the tooltip */
+          position: absolute;
+          bottom: 15px;
+          right: 30px;
+          z-index: 1;
+     }
+
+     .tooltip:hover .tooltiptext {
+          visibility: visible;
+     }
 </style>
 </body>
 </html>
