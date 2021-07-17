@@ -3,7 +3,7 @@
 
 <body>
      <div class="frame">
-    <table class="class-list-table">
+    <table class="class-list-table" cellpadding="2px">
         <thead>
             <tr>
                 <th>Class_ID</th>
@@ -27,13 +27,13 @@
                 </tr>
                 <% } %>
         </tbody>
-    </table>
+   </table><br><br>
 
     <form method="post" action="/dashboard/classes/upload_csv">
         <label for="class_id">Enter Class ID</label>
         <input type="number" name="class_id" id="class_id">
         <input type="submit" value="Upload CSV" />
-    </form>
+   </form><br>
 
     <form method="post" action="/dashboard/classes/class-details">
         <label for="class_id">Enter Class ID</label>
@@ -61,7 +61,11 @@
           /*border:2px solid black;
           border-radius:50px;*/
           padding:50px 15px;
-          background:linear-gradient(#FFC9FD,white);
+          /*background:linear-gradient(#FFC9FD,white);*/
+     }
+     table{
+          border: 1px solid black;
+          border-radius: 40px;
      }
 </style>
 </html>
