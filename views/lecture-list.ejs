@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
     <body>
-        
 
+         <div class="frame">
+          <b>LECTURE ATTENDANCE</b><br>
         <!-- Temp QDS. Fix this in front end so that user just has to click a student's name -->
         <form action="/dashboard/classes/class-details/lectures/lecture-details" method="post">
-            <label for="lecture_id">Enter Lecture_ID: </label>
+            <label for="lecture_id">Enter Lecture ID: </label>
             <input type="number" name="lecture_id" id="lecture_id" />
             <input type="submit" value="View lecture">
         </form>
 
         <br><br>
 
+        <b>CHANGE THRESHOLD PERCENT</b><br>
         <form action="/dashboard/classes/class-details/lectures/edit-lecture" method="post">
-            <label for="lecture_id">Enter Lecture_ID: </label>
+            <label for="lecture_id">Enter Lecture ID: </label>
             <input type="number" name="lecture_id" id="lecture_id" />
             <br>
             <label for="threshold">Enter threshold percent: </label>
@@ -21,7 +23,7 @@
             <br>
             <input type="submit" value="Edit lecture">
         </form>
-
+        <br><br>
         <table class="lecture-list">
             <thead>
                 <tr>
@@ -45,5 +47,54 @@
                 <% } %>
             </tbody>
         </table>
+   </div>
     </body>
+    <style>
+    html {
+         min-height: 100%;
+    }
+    body{
+         background-color :#ebf1fa;
+    }
+
+    .frame{
+         position:absolute;
+         top:50%;
+         left:50%;
+         transform: translate(-50%,-50%);
+         text-align:center;
+         height: 500px;
+    }
+    .form {
+         font-family: arial, sans-serif;
+         font-size:25px;
+         /*border:2px solid black;
+         border-radius:50px;*/
+         padding:50px 15px;
+         /*background:linear-gradient(#FFC9FD,white);*/
+    }
+    table {
+         font-family: arial, sans-serif;
+         border-collapse: collapse;
+         font-size: 15px;
+    }
+
+    td, th {
+         border: 1px solid #000;
+         text-align: center;
+         padding: 8px;
+    }
+
+    tr:nth-child(even) {
+         background-color: #b6bbc2;
+    }
+
+    b{
+         font-size:30px;
+    }
+    .bh{
+          display: inline;
+          font-size: 25px;
+    }
+    </style>
 </html>
