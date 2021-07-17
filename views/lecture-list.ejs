@@ -3,7 +3,7 @@
     <body>
 
          <div class="frame">
-          <b>LECTURE ATTENDANCE</b><br>
+          <b>LECTURE ATTENDANCE</b><br><br>
         <!-- Temp QDS. Fix this in front end so that user just has to click a student's name -->
         <form action="/dashboard/classes/class-details/lectures/lecture-details" method="post">
             <label for="lecture_id">Enter Lecture ID: </label>
@@ -13,14 +13,14 @@
 
         <br><br>
 
-        <b>CHANGE THRESHOLD PERCENT</b><br>
+        <b>CHANGE THRESHOLD PERCENT</b><br><br>
         <form action="/dashboard/classes/class-details/lectures/edit-lecture" method="post">
             <label for="lecture_id">Enter Lecture ID: </label>
             <input type="number" name="lecture_id" id="lecture_id" />
-            <br>
+            <br><br>
             <label for="threshold">Enter threshold percent: </label>
             <input type="number" name="threshold" id="threshold" />
-            <br>
+            <br><br>
             <input type="submit" value="Edit lecture">
         </form>
         <br><br>
