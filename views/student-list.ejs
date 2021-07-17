@@ -15,7 +15,7 @@
 
         <form action="/dashboard/classes/class-details/lectures" method="post">
             <input type="submit" value="View Lectures">
-        </form>
+       </form><br><br>
 
         <table class="student-list">
             <thead>
@@ -45,7 +45,7 @@
          min-height: 100%;
     }
     body{
-         background-color :#ccd6e6;
+         background-color :#ebf1fa;
     }
 
     .frame{
@@ -78,7 +78,14 @@
     }
 
     tr:nth-child(even) {
-         background-color: #7d9ac7;
+         background-color: #b6bbc2;
     }
+
+    thead, tbody { display: block; }
+
+tbody {
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
     </style>
 </html>
