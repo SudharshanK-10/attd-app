@@ -774,7 +774,7 @@ app.post('/dashboard/classes/class-details/lectures/edit-lecture',
                         console.error(err);
                     }
                     else {
-                        res.redirect('dashboard/classes/class-details/lectures');
+                        res.redirect('back');
                     }
                 });
             }
