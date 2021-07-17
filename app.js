@@ -774,7 +774,7 @@ app.post('/dashboard/classes/class-details/lectures/edit-lecture',
                         console.error(err);
                     }
                     else {
-                        res.redirect(req.get('referer'));
+                        res.redirect(req.post('referer'));
                     }
                 });
             }
